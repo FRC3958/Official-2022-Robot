@@ -29,7 +29,7 @@ public class Driving extends CommandBase {
   @Override
   public void execute() {
 
-    dt.arcadeDrive(0.5*xc.getLeftY(), 0.5*xc.getRightX());
+    dt.arcadeDrive(xc.getLeftY(), xc.getRightX());
 
   }
 

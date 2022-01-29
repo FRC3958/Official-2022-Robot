@@ -5,10 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Driving;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,6 +39,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_dt.setDefaultCommand(m_driving);
+
+    new JoystickButton(m_xc, Constants.ButtonA)
+      .whenPressed(() -> m_dt.resetHeading());
 
   }
 
