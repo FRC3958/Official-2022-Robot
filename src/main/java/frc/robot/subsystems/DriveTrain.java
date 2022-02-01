@@ -29,7 +29,7 @@ public class DriveTrain extends SubsystemBase {
   public final DifferentialDrive DiffD = new DifferentialDrive(backleft, backright);
 
   private final AHRS m_ahrs = new AHRS(Port.kMXP); 
-  private final DifferentialDriveOdometry odometry;
+  private DifferentialDriveOdometry odometry;
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
@@ -59,10 +59,10 @@ public class DriveTrain extends SubsystemBase {
     frontleft.follow(backleft);
     frontright.follow(backright);
 
-    frontright.setNeutralMode(NeutralMode.Coast);
-    frontleft.setNeutralMode(NeutralMode.Coast);
-    backright.setNeutralMode(NeutralMode.Coast);
-    backleft.setNeutralMode(NeutralMode.Coast);
+    frontright.setNeutralMode(NeutralMode.Brake);
+    frontleft.setNeutralMode(NeutralMode.Brake);
+    backright.setNeutralMode(NeutralMode.Brake);
+    backleft.setNeutralMode(NeutralMode.Brake);
 
     resetEncoders();
     resetHeading();
@@ -85,7 +85,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double forward, double turn){
-    DiffD.arcadeDrive(-turn, forward,true);
+    DiffD.arcadeDrive(-turn, forward*0.7,true);
   }
 
   public Pose2d getPose() {
@@ -98,6 +98,10 @@ public class DriveTrain extends SubsystemBase {
   
   public double getCurrentX() {
     return odometry.getPoseMeters().getX();
+  }
+
+  public void resetPosition() {
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
   public void resetEncoders() {

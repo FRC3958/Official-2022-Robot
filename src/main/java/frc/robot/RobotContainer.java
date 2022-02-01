@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Driving;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,7 +30,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-  }
+    }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -42,6 +43,9 @@ public class RobotContainer {
 
     new JoystickButton(m_xc, Constants.ButtonA)
       .whenPressed(() -> m_dt.resetHeading());
+
+    new JoystickButton(m_xc, Constants.ButtonB) 
+      .whenPressed(() -> m_dt.resetEncoders());
 
   }
 
