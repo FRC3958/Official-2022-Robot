@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -29,7 +30,7 @@ public class DriveTrain extends SubsystemBase {
   public final DifferentialDrive DiffD = new DifferentialDrive(backleft, backright);
 
   private final AHRS m_ahrs = new AHRS(Port.kMXP); 
-  private final DifferentialDriveOdometry odometry;
+  private DifferentialDriveOdometry odometry;
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
@@ -59,10 +60,13 @@ public class DriveTrain extends SubsystemBase {
     frontleft.follow(backleft);
     frontright.follow(backright);
 
-    frontright.setNeutralMode(NeutralMode.Coast);
-    frontleft.setNeutralMode(NeutralMode.Coast);
-    backright.setNeutralMode(NeutralMode.Coast);
-    backleft.setNeutralMode(NeutralMode.Coast);
+    frontright.setNeutralMode(NeutralMode.Brake);
+    frontleft.setNeutralMode(NeutralMode.Brake);
+    backright.setNeutralMode(NeutralMode.Brake);
+    backleft.setNeutralMode(NeutralMode.Brake);
+
+    backleft.setInverted(InvertType.InvertMotorOutput);
+    frontleft.setInverted(InvertType.FollowMaster);
 
     resetEncoders();
     resetHeading();
@@ -85,7 +89,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double forward, double turn){
-    DiffD.arcadeDrive(-turn, forward,true);
+    DiffD.arcadeDrive(-forward, turn*0.7,true);
   }
 
   public Pose2d getPose() {
@@ -100,6 +104,10 @@ public class DriveTrain extends SubsystemBase {
     return odometry.getPoseMeters().getX();
   }
 
+  public void resetPosition() {
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+  }
+
   public void resetEncoders() {
     backleft.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeout);
     backright.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeout);
@@ -110,11 +118,15 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getLeftDistanceMeters() {
-    return getMetersFromNative(backleft.getSelectedSensorPosition());
+    return getMetersFromNative(backleft.getSelectedSensorPosition()/8);
   }
 
   public double getRightDistanceMeters() {
-    return getMetersFromNative(backright.getSelectedSensorPosition());
+    return getMetersFromNative(backright.getSelectedSensorPosition()/8);
+  }
+
+  public void resetOdometry() {
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
   /**

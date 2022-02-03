@@ -7,7 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.Driving;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,12 +27,18 @@ public class RobotContainer {
   private final XboxController m_xc = new XboxController(Constants.XboxPort);
 
   private final Driving m_driving = new Driving (m_dt, m_xc);
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    SmartDashboard.putNumber("DistanceToTravel", 0);
     configureButtonBindings();
-  }
+    SmartDashboard.putData(new DriveToDistance(m_dt, -1));
+    SmartDashboard.putData(new TurnToAngle(m_dt, 90));
+
+
+    }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -42,6 +51,12 @@ public class RobotContainer {
 
     new JoystickButton(m_xc, Constants.ButtonA)
       .whenPressed(() -> m_dt.resetHeading());
+
+    new JoystickButton(m_xc, Constants.ButtonB) 
+      .whenPressed(() -> m_dt.resetEncoders());
+
+    new JoystickButton(m_xc, Constants.ButtonX)
+      .whenPressed(() -> m_dt.resetOdometry());
 
   }
 
