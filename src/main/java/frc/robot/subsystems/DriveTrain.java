@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -64,6 +65,9 @@ public class DriveTrain extends SubsystemBase {
     backright.setNeutralMode(NeutralMode.Brake);
     backleft.setNeutralMode(NeutralMode.Brake);
 
+    backleft.setInverted(InvertType.InvertMotorOutput);
+    frontleft.setInverted(InvertType.FollowMaster);
+
     resetEncoders();
     resetHeading();
 
@@ -85,7 +89,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double forward, double turn){
-    DiffD.arcadeDrive(-turn, forward*0.7,true);
+    DiffD.arcadeDrive(-forward, turn*0.7,true);
   }
 
   public Pose2d getPose() {
@@ -114,11 +118,15 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getLeftDistanceMeters() {
-    return getMetersFromNative(backleft.getSelectedSensorPosition());
+    return getMetersFromNative(backleft.getSelectedSensorPosition()/8);
   }
 
   public double getRightDistanceMeters() {
-    return getMetersFromNative(backright.getSelectedSensorPosition());
+    return getMetersFromNative(backright.getSelectedSensorPosition()/8);
+  }
+
+  public void resetOdometry() {
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
   /**

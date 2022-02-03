@@ -27,4 +27,5 @@ public final class Constants {
     public static final double WheelDiameter = 0.102;
     public static final int ButtonA = 1;
 	public static final int ButtonB = 2;
+    public static final int ButtonX = 3;
 }
