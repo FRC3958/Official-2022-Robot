@@ -38,12 +38,12 @@ public class DriveToDistance extends CommandBase {
     SmartDashboard.putNumber("abs % error", absPercentError); 
 
 
-    double motorOutput = 0.5; 
+    double motorOutput = 0.6; 
 
     if(absPercentError<=1 && absPercentError > 0.8) {
-      motorOutput = 1*(1-absPercentError) + 0.3; 
+      motorOutput = 1.5*(1-absPercentError) + 0.3; 
     } else if (absPercentError<0.25) {
-      motorOutput = absPercentError + 0.25; 
+      motorOutput = 1.4*absPercentError + 0.25; 
     }
 
     motorOutput *= isBackwards ? 1 : -1; 

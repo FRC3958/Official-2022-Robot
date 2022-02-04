@@ -89,7 +89,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double forward, double turn){
-    DiffD.arcadeDrive(-forward, turn*0.7,true);
+    DiffD.arcadeDrive(-forward, turn,true);
   }
 
   public Pose2d getPose() {

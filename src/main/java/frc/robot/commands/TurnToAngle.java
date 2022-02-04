@@ -36,21 +36,35 @@ public class TurnToAngle extends CommandBase {
   public void execute() {
     currentAngle = dt.getHeading();
     
-    double percentError = -1* ((Math.abs(goalAngle) - (currentAngle- startingAngle))/goalAngle);
+    double percentError =  -1*(goalAngle - (currentAngle- startingAngle))/Math.abs(goalAngle);
     boolean isBackwards = percentError<0; 
     double absPercentError = Math.abs(percentError); 
     
 
-
-    double motorOutput = 0.5; 
-
+    
+    double motorOutput = 0.45; 
     if(absPercentError<=1 && absPercentError > 0.8) {
-      motorOutput = 1*(1-absPercentError) + 0.3; 
+      motorOutput = 0.75*(1-absPercentError) + 0.3; 
     } else if (absPercentError<0.25) {
-      motorOutput = absPercentError + 0.25; 
+      motorOutput = 0.9*absPercentError + 0.225; 
     }
 
-    motorOutput *= isBackwards ? 1 : -1; 
+    if(goalAngle <= 45) {
+      if(absPercentError <=1 && absPercentError > 0.6)
+      motorOutput = 0.5125*(1-absPercentError) + 0.245; 
+   } else if (absPercentError<0.3) {
+     motorOutput = 0.683*absPercentError + 0.245; 
+    }
+
+    motorOutput *= isBackwards ? -1 : 1; 
+
+    
+
+    
+
+
+    SmartDashboard.putNumber("turning error", absPercentError);
+    SmartDashboard.putNumber("turning output", motorOutput);
 
     dt.arcadeDrive(0, motorOutput);
 
@@ -66,8 +80,10 @@ public class TurnToAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double percentError =  ((Math.abs(goalAngle) - (currentAngle- startingAngle))/goalAngle);
+    double percentError =  (goalAngle - (currentAngle- startingAngle))/Math.abs(goalAngle);
     SmartDashboard.putNumber("turn error", percentError); 
+    SmartDashboard.putNumber("Goal Angle", goalAngle);
+    
     return percentError > -.01 && percentError < .01; 
     
   }

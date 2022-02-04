@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.Driving;
 import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.autonDrivingRoutine;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -27,16 +28,15 @@ public class RobotContainer {
   private final XboxController m_xc = new XboxController(Constants.XboxPort);
 
   private final Driving m_driving = new Driving (m_dt, m_xc);
-  
+  private final autonDrivingRoutine m_auton = new autonDrivingRoutine(m_dt);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     SmartDashboard.putNumber("DistanceToTravel", 0);
     configureButtonBindings();
-    SmartDashboard.putData(new DriveToDistance(m_dt, -1));
-    SmartDashboard.putData(new TurnToAngle(m_dt, 90));
-
+    SmartDashboard.putData(new DriveToDistance(m_dt, -2.5));
+    SmartDashboard.putData(new TurnToAngle(m_dt, 45)); // angl
 
     }
 
@@ -65,8 +65,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  /*public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }*/
+    return m_auton;
+  }
 }
