@@ -28,4 +28,6 @@ public final class Constants {
     public static final int ButtonA = 1;
 	public static final int ButtonB = 2;
     public static final int ButtonX = 3;
+    public static final int ButtonY = 4;
+    public static final int startButton = 8;
 }
