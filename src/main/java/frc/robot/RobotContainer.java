@@ -13,6 +13,7 @@ import frc.robot.commands.Driving;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.autonDrivingRoutine;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.limeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -26,6 +27,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_dt = new DriveTrain();
   private final XboxController m_xc = new XboxController(Constants.XboxPort);
+  private final limeLight m_limelight = new limeLight();
 
   private final Driving m_driving = new Driving (m_dt, m_xc);
   private final autonDrivingRoutine m_auton = new autonDrivingRoutine(m_dt);
@@ -36,7 +38,8 @@ public class RobotContainer {
     SmartDashboard.putNumber("DistanceToTravel", 0);
     configureButtonBindings();
     SmartDashboard.putData(new DriveToDistance(m_dt, -2.5));
-    SmartDashboard.putData(new TurnToAngle(m_dt, 10)); // angle
+    SmartDashboard.putData(new TurnToAngle(m_dt, m_limelight.yeeYawww())); // angle
+
 
     }
 
@@ -57,6 +60,10 @@ public class RobotContainer {
 
     new JoystickButton(m_xc, Constants.ButtonX)
       .whenPressed(() -> m_dt.resetOdometry());
+    
+    new JoystickButton(m_xc, Constants.startButton)
+    .whenPressed(() -> m_limelight.setLED(true))
+    .whenReleased(()-> m_limelight.setLED(false));
 
   }
 

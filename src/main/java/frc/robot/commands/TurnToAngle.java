@@ -4,30 +4,59 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.limeLight;
 
 public class TurnToAngle extends CommandBase {
   DriveTrain dt;
   private double startingAngle = 0;
-  private double goalAngle;
+  public double goalAngle;
   private double turningAngle;
   
   private double currentAngle;
+  private limeLight m_ll; 
+  private boolean getAngleFromLimelight = false; 
+  private boolean angleToClose = false; 
   /** Creates a new TurnToAngle. */
   public TurnToAngle(DriveTrain drt, double gAngle) {
     dt = drt;
     goalAngle = gAngle;
+    getAngleFromLimelight = false;
     addRequirements(dt);
     
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
+  public TurnToAngle(DriveTrain drt) {
+    dt = drt; 
+    getAngleFromLimelight = true; 
+  }
+
+  /*public TurnToAngle(DriveTrain drt, limeLight ll) {
+    dt = drt;
+    goalAngle = ll.yeeYawww();
+    m_ll = ll;
+    System.out.println(goalAngle + "Goal ANGLE");
+  }*/
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   startingAngle = dt.getHeading();
+  if(getAngleFromLimelight) {
+    //for some reason calling yeeYaw directly was restarting the roboRio, so I directly get the value from network tables (look at shuffleboard)
+    goalAngle = -1*NetworkTableInstance.getDefault().getTable("photonvision").getSubTable("3958Limelight").getEntry("targetYaw").getDouble(0);
+    SmartDashboard.putNumber("gaaaa", goalAngle);
+    if(Math.abs(goalAngle) < 6) { 
+      angleToClose = true;
+      
+    } else {
+      angleToClose = false; 
+    }
+  }
   
   }
  
@@ -81,10 +110,10 @@ public class TurnToAngle extends CommandBase {
   @Override
   public boolean isFinished() {
     double percentError =  (goalAngle - (currentAngle- startingAngle))/Math.abs(goalAngle);
-    SmartDashboard.putNumber("turn error", percentError); 
+    SmartDashboard.putBoolean("finish early?", angleToClose); 
     SmartDashboard.putNumber("Goal Angle", goalAngle);
     
-    return percentError > -.01 && percentError < .01 || goalAngle <= 6; 
+    return percentError > -.01 && percentError < .01 || angleToClose; 
     
   }
 }
