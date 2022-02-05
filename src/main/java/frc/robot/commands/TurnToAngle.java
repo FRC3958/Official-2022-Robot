@@ -49,24 +49,24 @@ public class TurnToAngle extends CommandBase {
       motorOutput = 0.9*absPercentError + 0.225; 
     }
 
+    double lowMotorOutput = 0.35;
     if(goalAngle <= 45) {
-      if(absPercentError <=1 && absPercentError > 0.6)
-      motorOutput = 0.5125*(1-absPercentError) + 0.245; 
-   } else if (absPercentError<0.3) {
-     motorOutput = 0.683*absPercentError + 0.245; 
-    }
+      if(absPercentError <=1 && absPercentError > 0.8)
+      lowMotorOutput = 0.5*(1-absPercentError) + 0.25; 
+        else if (absPercentError < 0.6) {
+          lowMotorOutput = 0.1667*absPercentError + 0.25; 
+        }
+      } 
 
-    motorOutput *= isBackwards ? -1 : 1; 
-
-    
-
-    
-
+    motorOutput *= isBackwards ? -1 : 1;
+    lowMotorOutput *= isBackwards ? -1 : 1;
 
     SmartDashboard.putNumber("turning error", absPercentError);
     SmartDashboard.putNumber("turning output", motorOutput);
 
+
     dt.arcadeDrive(0, motorOutput);
+    dt.arcadeDrive(0, lowMotorOutput);
 
 
   }
@@ -84,7 +84,7 @@ public class TurnToAngle extends CommandBase {
     SmartDashboard.putNumber("turn error", percentError); 
     SmartDashboard.putNumber("Goal Angle", goalAngle);
     
-    return percentError > -.01 && percentError < .01; 
+    return percentError > -.01 && percentError < .01 || goalAngle <= 6; 
     
   }
 }

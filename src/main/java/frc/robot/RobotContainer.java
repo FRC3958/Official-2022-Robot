@@ -36,7 +36,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("DistanceToTravel", 0);
     configureButtonBindings();
     SmartDashboard.putData(new DriveToDistance(m_dt, -2.5));
-    SmartDashboard.putData(new TurnToAngle(m_dt, 45)); // angl
+    SmartDashboard.putData(new TurnToAngle(m_dt, 10)); // angle
 
     }
 
