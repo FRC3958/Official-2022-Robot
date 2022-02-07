@@ -30,4 +30,12 @@ public final class Constants {
     public static final int ButtonX = 3;
     public static final int ButtonY = 4;
     public static final int startButton = 8;
+    public static final double ShooterkP = 0;
+    public static final double ShooterkI = 0;
+    public static final double ShooterkD = 0;
+    public static final int ShooterTopID = 0;
+    public static final int ShooterButtonID = 0;
+    public static final int GatewayID = 0;
+    public static final double AcceptableShootingError = 200;
+    public static final double FixedShootingSpeed = 10000; 
 }

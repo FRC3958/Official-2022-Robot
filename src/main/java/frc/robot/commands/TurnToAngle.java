@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -20,20 +22,23 @@ public class TurnToAngle extends CommandBase {
   private limeLight m_ll; 
   private boolean getAngleFromLimelight = false; 
   private boolean angleToClose = false; 
+  private DoubleSupplier limeYawDS;
   /** Creates a new TurnToAngle. */
-  public TurnToAngle(DriveTrain drt, double gAngle) {
+  /*public TurnToAngle(DriveTrain drt, double gAngle) {
     dt = drt;
     goalAngle = gAngle;
     getAngleFromLimelight = false;
     addRequirements(dt);
     
     // Use addRequirements() here to declare subsystem dependencies.
-  }
+  }*/
 
-  public TurnToAngle(DriveTrain drt) {
+  public TurnToAngle(DriveTrain drt, DoubleSupplier ds) {
     dt = drt; 
     getAngleFromLimelight = true; 
+    limeYawDS = ds; 
   }
+
 
   /*public TurnToAngle(DriveTrain drt, limeLight ll) {
     dt = drt;
@@ -48,7 +53,7 @@ public class TurnToAngle extends CommandBase {
   startingAngle = dt.getHeading();
   if(getAngleFromLimelight) {
     //for some reason calling yeeYaw directly was restarting the roboRio, so I directly get the value from network tables (look at shuffleboard)
-    goalAngle = -1*NetworkTableInstance.getDefault().getTable("photonvision").getSubTable("3958Limelight").getEntry("targetYaw").getDouble(0);
+    goalAngle = limeYawDS.getAsDouble();//-1*NetworkTableInstance.getDefault().getTable("photonvision").getSubTable("3958Limelight").getEntry("targetYaw").getDouble(0);
     SmartDashboard.putNumber("gaaaa", goalAngle);
     if(Math.abs(goalAngle) < 6) { 
       angleToClose = true;

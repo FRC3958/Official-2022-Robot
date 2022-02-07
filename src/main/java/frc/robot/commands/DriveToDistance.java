@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
@@ -11,12 +13,13 @@ import frc.robot.subsystems.DriveTrain;
 public class DriveToDistance extends CommandBase {
   /** Creates a new DriveToDistance. */
   private DriveTrain m_dt; 
-  private double DistanceToTravel; 
+  private double DistanceToTravel = 0;
+  private DoubleSupplier dttDS; 
   private double StartingX = 0; 
   private double StartingY = 0; 
-  public DriveToDistance(DriveTrain d, double dtt) {
+  public DriveToDistance(DriveTrain d, DoubleSupplier dtt) {
     m_dt = d; 
-    DistanceToTravel = dtt; 
+    dttDS = dtt; 
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -26,6 +29,7 @@ public class DriveToDistance extends CommandBase {
   public void initialize() {
     StartingX = m_dt.getCurrentX();
     StartingY = m_dt.getCurrentY();
+    DistanceToTravel = dttDS.getAsDouble(); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -64,6 +68,6 @@ public class DriveToDistance extends CommandBase {
   public boolean isFinished() {
     double distanceTravelled = Math.sqrt(Math.pow(m_dt.getCurrentX()-StartingX, 2) + Math.pow(m_dt.getCurrentY()-StartingY, 2));
     SmartDashboard.putNumber("distancet", distanceTravelled); 
-    return (Math.abs(DistanceToTravel) - distanceTravelled) < 0.005; 
+    return (Math.abs(DistanceToTravel) - distanceTravelled) < 0.005 || Math.abs(DistanceToTravel) < 0.1; 
   }
 }
