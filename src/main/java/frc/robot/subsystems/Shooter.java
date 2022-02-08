@@ -17,7 +17,7 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
   private WPI_TalonFX shooterTop = new WPI_TalonFX(Constants.ShooterTopID);
-  private WPI_TalonFX shooterBottom = new WPI_TalonFX(Constants.ShooterButtonID);
+  private WPI_TalonFX shooterBottom = new WPI_TalonFX(Constants.ShooterBottomID);
   private WPI_TalonSRX gateway = new WPI_TalonSRX(Constants.GatewayID);
 
 
