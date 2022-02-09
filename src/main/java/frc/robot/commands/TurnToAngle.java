@@ -21,7 +21,7 @@ public class TurnToAngle extends CommandBase {
   private double currentAngle;
   private limeLight m_ll; 
   private boolean getAngleFromLimelight = false; 
-  private boolean angleToClose = false; 
+  private boolean angleTooClose = false; 
   private DoubleSupplier limeYawDS;
   /** Creates a new TurnToAngle. */
   /*public TurnToAngle(DriveTrain drt, double gAngle) {
@@ -32,7 +32,7 @@ public class TurnToAngle extends CommandBase {
     
     // Use addRequirements() here to declare subsystem dependencies.
   }*/
-
+  // turns robots depending on the limelight
   public TurnToAngle(DriveTrain drt, DoubleSupplier ds) {
     dt = drt; 
     getAngleFromLimelight = true; 
@@ -55,11 +55,11 @@ public class TurnToAngle extends CommandBase {
     //for some reason calling yeeYaw directly was restarting the roboRio, so I directly get the value from network tables (look at shuffleboard)
     goalAngle = limeYawDS.getAsDouble();//-1*NetworkTableInstance.getDefault().getTable("photonvision").getSubTable("3958Limelight").getEntry("targetYaw").getDouble(0);
     SmartDashboard.putNumber("gaaaa", goalAngle);
-    if(Math.abs(goalAngle) < 6) { 
-      angleToClose = true;
+    if(Math.abs(goalAngle) < 6) { //6 degree tolerene
+      angleTooClose = true;
       
     } else {
-      angleToClose = false; 
+      angleTooClose = false; 
     }
   }
   
@@ -77,13 +77,13 @@ public class TurnToAngle extends CommandBase {
 
     
     double motorOutput = 0.45; 
-    if(absPercentError<=1 && absPercentError > 0.8) {
+    if(absPercentError<=1 && absPercentError > 0.8) {// tuned to turn 90 degrees
       motorOutput = 0.75*(1-absPercentError) + 0.3; 
     } else if (absPercentError<0.25) {
       motorOutput = 0.9*absPercentError + 0.225; 
     }
 
-    double lowMotorOutput = 0.35;
+    double lowMotorOutput = 0.35;// tuned for anything under or = 45 degress
     if(goalAngle <= 45) {
       if(absPercentError <=1 && absPercentError > 0.8)
       lowMotorOutput = 0.5*(1-absPercentError) + 0.25; 
@@ -91,14 +91,14 @@ public class TurnToAngle extends CommandBase {
           lowMotorOutput = 0.1667*absPercentError + 0.25; 
         }
       } 
-
+      //if statments  to turn
     motorOutput *= isBackwards ? -1 : 1;
     lowMotorOutput *= isBackwards ? -1 : 1;
 
     SmartDashboard.putNumber("turning error", absPercentError);
     SmartDashboard.putNumber("turning output", motorOutput);
 
-
+    // using tuned outputs to drive
     dt.arcadeDrive(0, motorOutput);
     dt.arcadeDrive(0, lowMotorOutput);
 
@@ -115,10 +115,10 @@ public class TurnToAngle extends CommandBase {
   @Override
   public boolean isFinished() {
     double percentError =  (goalAngle - (currentAngle- startingAngle))/Math.abs(goalAngle);
-    SmartDashboard.putBoolean("finish early?", angleToClose); 
+    SmartDashboard.putBoolean("finish early?", angleTooClose); 
     SmartDashboard.putNumber("Goal Angle", goalAngle);
-    
-    return percentError > -.01 && percentError < .01 || angleToClose; 
+    // stop at this % range or when angleToClose is true
+    return percentError > -.01 && percentError < .01 || angleTooClose; 
     
   }
 }

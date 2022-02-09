@@ -13,7 +13,7 @@ import frc.robot.subsystems.Shooter;
 public class Shoot extends CommandBase {
   /** Creates a new Shoot. */
   Shooter m_shooter;
-  DoubleSupplier m_shootingSpeed; 
+  DoubleSupplier m_shootingSpeed; // expression that can give different values
   double shootingVelocity = 0; 
   boolean stopAtEnd = false; 
   
@@ -27,14 +27,14 @@ public class Shoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shootingVelocity = m_shootingSpeed.getAsDouble();
+    shootingVelocity = m_shootingSpeed.getAsDouble(); // gives usable double value
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_shooter.setVelocityMode(shootingVelocity);
-
+    // feeds the ball when the shooter is at an acceptable speed
     if(shootingVelocity - m_shooter.getShooterVelocity() < Constants.AcceptableShootingError) {
       m_shooter.openGateway();
     } else {
@@ -44,7 +44,7 @@ public class Shoot extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(boolean interrupted) {// stops feeding balls
     if(stopAtEnd) {
       m_shooter.closeGateway();
     }

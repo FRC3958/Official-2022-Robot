@@ -66,10 +66,10 @@ public class RobotContainer {
     new JoystickButton(m_xc, Constants.ButtonX)
       .whenPressed(() -> m_dt.resetOdometry());
 
-    new JoystickButton(m_xc, Constants.ButtonY)
+    new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
       .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight));
     
-    new JoystickButton(m_xc, Constants.startButton)
+    new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
     .whenPressed(() -> m_limelight.setLED(true))
     .whenReleased(()-> m_limelight.setLED(false));
 

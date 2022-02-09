@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
+  // instantiating relevent motors
+  private double motorSpeedDiff = 0;
   private WPI_TalonFX shooterTop = new WPI_TalonFX(Constants.ShooterTopID);
   private WPI_TalonFX shooterBottom = new WPI_TalonFX(Constants.ShooterBottomID);
   private WPI_TalonSRX gateway = new WPI_TalonSRX(Constants.GatewayID);
@@ -23,10 +25,11 @@ public class Shooter extends SubsystemBase {
 
   /** Creates a new Shooter. */
   public Shooter() {
+    //sets motors to defult at startup
     shooterTop.configFactoryDefault();
     shooterBottom.configFactoryDefault();
     gateway.configFactoryDefault();
-
+    // gets encoder data for shooter motors
     shooterTop.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     shooterBottom.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
@@ -50,28 +53,31 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    motorSpeedDiff = shooterBottom.getSelectedSensorVelocity()- shooterTop.getSelectedSensorVelocity();
+    // speed of shooter motors (Ideally should be the same)
     SmartDashboard.putNumber("bottom speed", shooterBottom.getSelectedSensorVelocity());
     SmartDashboard.putNumber("top speed", shooterTop.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("speed differnce", motorSpeedDiff);
 
   }
 
   public double getShooterVelocity() {
-    return shooterBottom.getSelectedSensorVelocity();
+    return shooterBottom.getSelectedSensorVelocity();// gets shooter speed
   }
 
-  public void setPercentMode(double speed) {
+  public void setPercentMode(double speed) {// insert % speed
     shooterBottom.set(ControlMode.PercentOutput, speed);
   }
 
-  public void setVelocityMode(double speed) {
+  public void setVelocityMode(double speed) {// insert unit speed
     shooterBottom.set(ControlMode.Velocity, speed); 
   }
 
-  public void openGateway() {
+  public void openGateway() {// feeds ball to shooter
     gateway.set(0.4);
   }
 
-  public void closeGateway() {
+  public void closeGateway() {// stops feeding ball to shooter
     gateway.set(0);
   }
 
