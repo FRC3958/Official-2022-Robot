@@ -10,9 +10,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.Driving;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.ShootingFullRoutine;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.autonDrivingRoutine;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.limeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -28,6 +31,8 @@ public class RobotContainer {
   private final DriveTrain m_dt = new DriveTrain();
   private final XboxController m_xc = new XboxController(Constants.XboxPort);
   private final limeLight m_limelight = new limeLight();
+  private final Shooter m_shooter = new Shooter();
+  
 
   private final Driving m_driving = new Driving (m_dt, m_xc);
   private final autonDrivingRoutine m_auton = new autonDrivingRoutine(m_dt);
@@ -37,8 +42,8 @@ public class RobotContainer {
     // Configure the button bindings
     SmartDashboard.putNumber("DistanceToTravel", 0);
     configureButtonBindings();
-    SmartDashboard.putData(new DriveToDistance(m_dt, -2.5));
-    SmartDashboard.putData(new TurnToAngle(m_dt, m_limelight.yeeYawww())); // angle
+    SmartDashboard.putData(new DriveToDistance(m_dt, () -> -2.5));
+    SmartDashboard.putData(new TurnToAngle(m_dt, () -> m_limelight.getYaw())); // angle
 
 
     }
@@ -60,8 +65,11 @@ public class RobotContainer {
 
     new JoystickButton(m_xc, Constants.ButtonX)
       .whenPressed(() -> m_dt.resetOdometry());
+
+    new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
+      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight));
     
-    new JoystickButton(m_xc, Constants.startButton)
+    new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
     .whenPressed(() -> m_limelight.setLED(true))
     .whenReleased(()-> m_limelight.setLED(false));
 

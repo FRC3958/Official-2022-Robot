@@ -12,11 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class limeLight extends SubsystemBase {
+  // instantiates limelight (camera)
   public PhotonCamera camera = new PhotonCamera("3958Limelight");
   
-
+// instantiates limelight and gets starting measurement
   PhotonPipelineResult result = camera.getLatestResult();
-  private double yaw = 0; 
+  private double yaw = 0; // measurement for left and right turns
 
   /** Creates a new limeLight. */
   public limeLight() {
@@ -26,8 +27,8 @@ public class limeLight extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    result = new PhotonPipelineResult();
-    SmartDashboard.putNumber("yewYaw", yeeYawww());
+    result = new PhotonPipelineResult();// yaw constantly updates
+    SmartDashboard.putNumber("yewYaw", yeeYawww()); // Outputs latest Yaw
 
      
   
@@ -46,8 +47,8 @@ public class limeLight extends SubsystemBase {
   }
 
   public double yeeYawww(){
-    result = camera.getLatestResult();
-    if(result.hasTargets()) {
+    result = camera.getLatestResult();// gets newest yaw
+    if(result.hasTargets()) {//has it found the target
       SmartDashboard.putString("found?", "yes");
       return result.getBestTarget().getYaw();
     } else {

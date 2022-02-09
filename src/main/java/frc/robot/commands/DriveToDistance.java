@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
@@ -11,12 +13,13 @@ import frc.robot.subsystems.DriveTrain;
 public class DriveToDistance extends CommandBase {
   /** Creates a new DriveToDistance. */
   private DriveTrain m_dt; 
-  private double DistanceToTravel; 
+  private double DistanceToTravel = 0;
+  private DoubleSupplier dttDS; // expression not static varible
   private double StartingX = 0; 
   private double StartingY = 0; 
-  public DriveToDistance(DriveTrain d, double dtt) {
+  public DriveToDistance(DriveTrain d, DoubleSupplier dtt) {
     m_dt = d; 
-    DistanceToTravel = dtt; 
+    dttDS = dtt; 
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,14 +27,18 @@ public class DriveToDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // starting values
     StartingX = m_dt.getCurrentX();
     StartingY = m_dt.getCurrentY();
+    DistanceToTravel = dttDS.getAsDouble(); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //find distance already traveled use a^2 + b^2 = c^2
     double distanceTravelled = Math.sqrt(Math.pow(m_dt.getCurrentX()-StartingX, 2) + Math.pow(m_dt.getCurrentY()-StartingY, 2));
+    // distence left to travel as %
     double percentError = (Math.abs(DistanceToTravel)-distanceTravelled)/DistanceToTravel;
     boolean isBackwards = percentError<0; 
     double absPercentError = Math.abs(percentError); 
@@ -39,13 +46,13 @@ public class DriveToDistance extends CommandBase {
 
 
     double motorOutput = 0.6; 
-
-    if(absPercentError<=1 && absPercentError > 0.8) {
+    // y = mx+b
+    if(absPercentError<=1 && absPercentError > 0.8) {// fine tuning 
       motorOutput = 1.5*(1-absPercentError) + 0.3; 
     } else if (absPercentError<0.25) {
       motorOutput = 1.4*absPercentError + 0.25; 
     }
-
+    // if statement to find direction
     motorOutput *= isBackwards ? 1 : -1; 
 
     SmartDashboard.putNumber("motor output", motorOutput);
@@ -64,6 +71,6 @@ public class DriveToDistance extends CommandBase {
   public boolean isFinished() {
     double distanceTravelled = Math.sqrt(Math.pow(m_dt.getCurrentX()-StartingX, 2) + Math.pow(m_dt.getCurrentY()-StartingY, 2));
     SmartDashboard.putNumber("distancet", distanceTravelled); 
-    return (Math.abs(DistanceToTravel) - distanceTravelled) < 0.005; 
+    return (Math.abs(DistanceToTravel) - distanceTravelled) < 0.005 || Math.abs(DistanceToTravel) < 0.1; //sets tolerence
   }
 }
