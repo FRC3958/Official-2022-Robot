@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
@@ -28,6 +30,7 @@ public class Shoot extends CommandBase {
   @Override
   public void initialize() {
     shootingVelocity = m_shootingSpeed.getAsDouble(); // gives usable double value
+    System.out.println(shootingVelocity); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,10 +38,13 @@ public class Shoot extends CommandBase {
   public void execute() {
     m_shooter.setVelocityMode(shootingVelocity);
     // feeds the ball when the shooter is at an acceptable speed
+    SmartDashboard.putNumber("Shooter Velocity", m_shooter.getShooterVelocity());
     if(shootingVelocity - m_shooter.getShooterVelocity() < Constants.AcceptableShootingError) {
       m_shooter.openGateway();
+      System.out.println("Open");
     } else {
       m_shooter.closeGateway();
+      System.out.println("Close");
     }
   }
 

@@ -30,14 +30,15 @@ public final class Constants {
     public static final int ButtonX = 3;
     public static final int ButtonY = 4;
     public static final int startButton = 8;
-    public static final double ShooterkP = 0;
+    public static final double ShooterkF = 0.0498; 
+    public static final double ShooterkP = 0.25;
     public static final double ShooterkI = 0;
-    public static final double ShooterkD = 0;
-    public static final int ShooterTopID = 0;
-    public static final int ShooterBottomID = 0;
-    public static final int GatewayID = 0;
-    public static final double AcceptableShootingError = 200;
-    public static final double FixedShootingSpeed = 10000;
+    public static final double ShooterkD = 1.5;
+    public static final int ShooterTopID = 20;
+    public static final int ShooterBottomID = 21;
+    public static final int GatewayID = 7;
+    public static final double AcceptableShootingError = 500;
+    public static final double FixedShootingSpeed = 12500;
     public static final int ClimberLeftID = 0;
     public static final int ClimberRightID = 0;
     public static final int kTurnTravelUnitsPerRotation = 1;
@@ -50,5 +51,9 @@ public final class Constants {
     public static final double kGains_TurningkPeakOutput = 1;
     public static final int kTimeoutMs = 30;
     public static final int kSlot_Turning = 1;
-    public static final int PID_TURN = 1; 
+    public static final int PID_TURN = 1;
+    public static final double LimelightDegree = 13.55;
+    public static final double HubHeight = 2.64;
+    public static final double LimelightHeight = 0.84;
+    
 }

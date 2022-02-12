@@ -43,7 +43,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("DistanceToTravel", 0);
     configureButtonBindings();
     SmartDashboard.putData(new DriveToDistance(m_dt, () -> -2.5));
-    SmartDashboard.putData(new TurnToAngle(m_dt, () -> m_limelight.getYaw())); // angle
+   // SmartDashboard.putData(new TurnToAngle(m_dt, () -> m_limelight.getYaw())); // angle
 
 
     }
@@ -64,14 +64,14 @@ public class RobotContainer {
       .whenPressed(() -> m_dt.resetEncoders());
 
     new JoystickButton(m_xc, Constants.ButtonX)
-      .whenPressed(() -> m_dt.resetOdometry());
+      .whenHeld(new Shoot(m_shooter, () -> 12500, true) );
 
     new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
       .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight));
     
-    new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
-    .whenPressed(() -> m_limelight.setLED(true))
-    .whenReleased(()-> m_limelight.setLED(false));
+    //new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
+    //.whenPressed(() -> m_limelight.setLED(true))
+    //.whenReleased(()-> m_limelight.setLED(false));
 
   }
 

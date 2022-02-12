@@ -34,6 +34,7 @@ public class Shooter extends SubsystemBase {
     shooterBottom.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
+    talonConfig.slot0.kF = Constants.ShooterkF;
     talonConfig.slot0.kP = Constants.ShooterkP;
     talonConfig.slot0.kI = Constants.ShooterkI;
     talonConfig.slot0.kD = Constants.ShooterkD;
@@ -45,7 +46,12 @@ public class Shooter extends SubsystemBase {
     shooterBottom.setNeutralMode(NeutralMode.Coast);
     gateway.setNeutralMode(NeutralMode.Brake);
 
+    gateway.setInverted(true);;
+
+    
     shooterTop.follow(shooterBottom); 
+    shooterTop.setInverted(true);
+  
   
 
   }
@@ -71,10 +77,11 @@ public class Shooter extends SubsystemBase {
 
   public void setVelocityMode(double speed) {// insert unit speed
     shooterBottom.set(ControlMode.Velocity, speed); 
+    System.out.println(speed);
   }
 
   public void openGateway() {// feeds ball to shooter
-    gateway.set(0.4);
+    gateway.set(-0.4);
   }
 
   public void closeGateway() {// stops feeding ball to shooter

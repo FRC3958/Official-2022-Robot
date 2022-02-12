@@ -20,7 +20,7 @@ public class ShootingFullRoutine extends SequentialCommandGroup {
   Shooter m_shoot;
   limeLight m_lime;
 
-  public ShootingFullRoutine(DriveTrain d, Shooter s, limeLight l) {
+  public ShootingFullRoutine(DriveTrain d, Shooter s, limeLight l) { //TODO overload constructor for shooting from anywhere/fixed distance
     m_dt = d ; 
     m_shoot = s; 
     m_lime = l; 
