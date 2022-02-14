@@ -31,13 +31,13 @@ public final class Constants {
     public static final int ButtonY = 4;
     public static final int startButton = 8;
     public static final double ShooterkF = 0.0498; 
-    public static final double ShooterkP = 0.25;
+    public static final double ShooterkP = 0.53;
     public static final double ShooterkI = 0;
-    public static final double ShooterkD = 1.5;
+    public static final double ShooterkD = 6.4;
     public static final int ShooterTopID = 20;
     public static final int ShooterBottomID = 21;
     public static final int GatewayID = 7;
-    public static final double AcceptableShootingError = 500;
+    public static final double AcceptableShootingError = 200;
     public static final double FixedShootingSpeed = 12500;
     public static final int ClimberLeftID = 0;
     public static final int ClimberRightID = 0;

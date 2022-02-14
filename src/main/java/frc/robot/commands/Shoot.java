@@ -30,7 +30,6 @@ public class Shoot extends CommandBase {
   @Override
   public void initialize() {
     shootingVelocity = m_shootingSpeed.getAsDouble(); // gives usable double value
-    System.out.println(shootingVelocity); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,21 +38,19 @@ public class Shoot extends CommandBase {
     m_shooter.setVelocityMode(shootingVelocity);
     // feeds the ball when the shooter is at an acceptable speed
     SmartDashboard.putNumber("Shooter Velocity", m_shooter.getShooterVelocity());
-    if(shootingVelocity - m_shooter.getShooterVelocity() < Constants.AcceptableShootingError) {
+    if((shootingVelocity - m_shooter.getShooterVelocity() < Constants.AcceptableShootingError) && stopAtEnd) {
       m_shooter.openGateway();
-      System.out.println("Open");
+      
     } else {
       m_shooter.closeGateway();
-      System.out.println("Close");
+    
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {// stops feeding balls
-    if(stopAtEnd) {
-      m_shooter.closeGateway();
-    }
+    m_shooter.closeGateway();
     m_shooter.setPercentMode(0);
   }
 

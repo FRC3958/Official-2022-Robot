@@ -64,7 +64,7 @@ public class RobotContainer {
       .whenPressed(() -> m_dt.resetEncoders());
 
     new JoystickButton(m_xc, Constants.ButtonX)
-      .whenHeld(new Shoot(m_shooter, () -> 12500, true) );
+      .whenHeld(new Shoot(m_shooter, () -> 9000, true) );
 
     new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
       .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight));
