@@ -81,7 +81,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void openGateway() {// feeds ball to shooter
-    gateway.set(-0.4);
+    gateway.set(-0.5);
   }
 
   public void closeGateway() {// stops feeding ball to shooter

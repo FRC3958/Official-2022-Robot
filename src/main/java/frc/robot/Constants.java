@@ -55,5 +55,8 @@ public final class Constants {
     public static final double LimelightDegree = 13.55;
     public static final double HubHeight = 2.64;
     public static final double LimelightHeight = 0.84;
+    public static final int IndexID = 10;
+    public static final int RightBumper = 6;
+    public static final int LeftBumper = 5;
     
 }

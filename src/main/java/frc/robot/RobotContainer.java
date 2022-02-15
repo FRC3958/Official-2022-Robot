@@ -10,11 +10,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.Driving;
+import frc.robot.commands.Extaking;
+import frc.robot.commands.Intaking;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootingFullRoutine;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.autonDrivingRoutine;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.limeLight;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,10 +35,13 @@ public class RobotContainer {
   private final XboxController m_xc = new XboxController(Constants.XboxPort);
   private final limeLight m_limelight = new limeLight();
   private final Shooter m_shooter = new Shooter();
+  private final Index m_index = new Index();
   
 
   private final Driving m_driving = new Driving (m_dt, m_xc);
   private final autonDrivingRoutine m_auton = new autonDrivingRoutine(m_dt);
+  private final Intaking m_intaking = new Intaking(m_index);
+  private final Extaking m_extaking = new Extaking(m_index);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -67,7 +73,16 @@ public class RobotContainer {
       .whenHeld(new Shoot(m_shooter, () -> 9000, true) );
 
     new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
-      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight));
+      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, 5.25, m_index));
+
+    new JoystickButton(m_xc, Constants.RightBumper)
+      .whenPressed(() -> m_index.intake(0.5))
+      .whenReleased(() -> m_index.intake(0));
+
+    new JoystickButton(m_xc, Constants.LeftBumper)
+      .whenHeld(new Extaking(m_index));
+
+    
     
     //new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
     //.whenPressed(() -> m_limelight.setLED(true))
