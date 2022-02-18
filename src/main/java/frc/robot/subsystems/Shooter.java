@@ -76,8 +76,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setVelocityMode(double speed) {// insert unit speed
-    shooterBottom.set(ControlMode.Velocity, speed); 
-    System.out.println(speed);
+    shooterBottom.set(ControlMode.Velocity, speed);
   }
 
   public void openGateway() {// feeds ball to shooter

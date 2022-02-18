@@ -12,7 +12,7 @@ public class Intaking extends CommandBase {
   
   /** Creates a new Intaking. */
   public Intaking(Index m_I) {
-    m_I = I;
+    I = m_I;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -24,7 +24,7 @@ public class Intaking extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    I.intake(0.3);
+    I.intake(0.5);
 
   }
 

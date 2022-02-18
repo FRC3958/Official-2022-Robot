@@ -48,7 +48,7 @@ public class RobotContainer {
     // Configure the button bindings
     SmartDashboard.putNumber("DistanceToTravel", 0);
     configureButtonBindings();
-    SmartDashboard.putData(new DriveToDistance(m_dt, () -> -2.5));
+    SmartDashboard.putData(new DriveToDistance(m_dt, () -> SmartDashboard.getNumber("DistanceToTravel", 0)));
    // SmartDashboard.putData(new TurnToAngle(m_dt, () -> m_limelight.getYaw())); // angle
 
 
@@ -67,17 +67,16 @@ public class RobotContainer {
       .whenPressed(() -> m_dt.resetHeading());
 
     new JoystickButton(m_xc, Constants.ButtonB) 
-      .whenPressed(() -> m_dt.resetEncoders());
+      .whenHeld(new DriveToDistance(m_dt, () -> SmartDashboard.getNumber("DistanceToTravel", -0.5)));
 
     new JoystickButton(m_xc, Constants.ButtonX)
-      .whenHeld(new Shoot(m_shooter, () -> 9000, true) );
+      .whenHeld(new Shoot(m_shooter, () -> 9500, true) );
 
     new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
-      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, 5.25, m_index));
+      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, 7, m_index));
 
     new JoystickButton(m_xc, Constants.RightBumper)
-      .whenPressed(() -> m_index.intake(0.5))
-      .whenReleased(() -> m_index.intake(0));
+      .whenHeld(new Intaking(m_index));
 
     new JoystickButton(m_xc, Constants.LeftBumper)
       .whenHeld(new Extaking(m_index));

@@ -37,7 +37,7 @@ public final class Constants {
     public static final int ShooterTopID = 20;
     public static final int ShooterBottomID = 21;
     public static final int GatewayID = 7;
-    public static final double AcceptableShootingError = 200;
+    public static final double AcceptableShootingError = 500;
     public static final double FixedShootingSpeed = 12500;
     public static final int ClimberLeftID = 0;
     public static final int ClimberRightID = 0;

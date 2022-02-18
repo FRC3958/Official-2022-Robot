@@ -64,6 +64,7 @@ public class DriveToDistance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_dt.arcadeDrive(0, 0);
+    System.out.println("Ended");
   }
 
   // Returns true when the command should end.
