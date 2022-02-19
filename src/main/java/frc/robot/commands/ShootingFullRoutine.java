@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -39,15 +40,16 @@ public class ShootingFullRoutine extends SequentialCommandGroup {
     SmartDashboard.putNumber("distanttt", distanceToTravel.getAsDouble());
     addCommands(
       new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
+      new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
+      new KickBack(m_index),
+      new DriveToDistance(m_dt, distanceToTravel),
       new ParallelDeadlineGroup(
         new DriveToDistance(m_dt, distanceToTravel), 
-        new Shoot(m_shoot, () -> Constants.FixedShootingSpeed, false),
-        new Intaking(m_index)
+        new Shoot(m_shoot, ()  -> Constants.FixedShootingSpeed, true, m_index)
       ),
       new ParallelCommandGroup(
-        new Shoot(m_shoot, () -> Constants.FixedShootingSpeed, true),
-        new Intaking(m_index))
-    );
+        new Shoot(m_shoot, () -> Constants.FixedShootingSpeed, false, m_index)
+    ));
   }
 
 

@@ -73,4 +73,9 @@ public class limeLight extends SubsystemBase {
     }
   }
 
+  public double GetShooterTicks() {
+    double x = getDistanceToTarget();
+    return (-282.484*Math.pow(x, 3) + 4215.73*Math.pow(x, 2) + -19080.2*x + 36260.9);
+  }
+
 }

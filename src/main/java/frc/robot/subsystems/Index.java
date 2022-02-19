@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -13,12 +14,18 @@ import frc.robot.Constants;
 
 public class Index extends SubsystemBase {
   public final WPI_TalonSRX index = new WPI_TalonSRX(Constants.IndexID);
+  public final WPI_TalonSRX gateway = new WPI_TalonSRX(Constants.GatewayID);
 
   /** Creates a new Index. */
   public Index() {
     index.configFactoryDefault();
+    gateway.configFactoryDefault();
 
     index.setNeutralMode(NeutralMode.Brake);
+    gateway.setNeutralMode(NeutralMode.Brake);
+
+    gateway.setInverted(InvertType.InvertMotorOutput);
+
   }
 
   @Override
@@ -28,6 +35,33 @@ public class Index extends SubsystemBase {
 
   public void intake(double speed){
     index.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void openGateway() {// feeds ball to shooter
+    gateway.set(-0.5);
+  }
+
+  public void closeGateway() {// stops feeding ball to shooter
+    gateway.set(0);
+  }
+
+  public void reverseGateway() {
+    gateway.set(0.5);
+  }
+
+  public void reverseAll(){
+    reverseGateway();
+    intake(-0.3);
+  }
+
+  public void StopAll (){
+    closeGateway();
+    intake(0);
+  }
+
+  public void SendIt (){
+    openGateway();
+    intake(0.5);
   }
 
 }

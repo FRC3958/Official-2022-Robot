@@ -13,6 +13,7 @@ import frc.robot.commands.Driving;
 import frc.robot.commands.Extaking;
 import frc.robot.commands.Intaking;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.ShootAnyDistance;
 import frc.robot.commands.ShootingFullRoutine;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.autonDrivingRoutine;
@@ -47,6 +48,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     SmartDashboard.putNumber("DistanceToTravel", 0);
+    SmartDashboard.putNumber("Shooting Ticks", 0);
     configureButtonBindings();
     SmartDashboard.putData(new DriveToDistance(m_dt, () -> SmartDashboard.getNumber("DistanceToTravel", 0)));
    // SmartDashboard.putData(new TurnToAngle(m_dt, () -> m_limelight.getYaw())); // angle
@@ -64,16 +66,16 @@ public class RobotContainer {
     m_dt.setDefaultCommand(m_driving);
 
     new JoystickButton(m_xc, Constants.ButtonA)
-      .whenPressed(() -> m_dt.resetHeading());
+      .whenHeld(new TurnToAngle(m_dt, () -> -m_limelight.yeeYawww()));
 
     new JoystickButton(m_xc, Constants.ButtonB) 
-      .whenHeld(new DriveToDistance(m_dt, () -> SmartDashboard.getNumber("DistanceToTravel", -0.5)));
+      .whenPressed(new TurnToAngle(m_dt, () -> 3));
 
     new JoystickButton(m_xc, Constants.ButtonX)
-      .whenHeld(new Shoot(m_shooter, () -> 9500, true) );
+      .whenHeld(new ShootAnyDistance(m_limelight, m_shooter, m_index, m_dt) );
 
     new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
-      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, 7, m_index));
+      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, 5.25, m_index));
 
     new JoystickButton(m_xc, Constants.RightBumper)
       .whenHeld(new Intaking(m_index));

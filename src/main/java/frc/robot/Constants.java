@@ -13,32 +13,43 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
+    //DriveTrain constants
     public static final int FrontRight = 0;
     public static final int FrontLeft = 1;
     public static final int BackRight = 2;
     public static final int BackLeft = 3;
-    public static final int XboxPort = 0;
     public static final double DriveTrainkP = 0.05;
     public static final double DriveTrainkI = 0.0025;
     public static final double DriveTrainkD = 0;
     public static final int kTimeout = 30;
     public static final int QuadEncoderResolution = 2048;
     public static final double WheelDiameter = 0.102;
+
+
+    //controller constants
+    public static final int XboxPort = 0;
     public static final int ButtonA = 1;
 	public static final int ButtonB = 2;
     public static final int ButtonX = 3;
     public static final int ButtonY = 4;
     public static final int startButton = 8;
+    public static final int RightBumper = 6;
+    public static final int LeftBumper = 5;
+
+
+    //shooter constants
     public static final double ShooterkF = 0.0498; 
-    public static final double ShooterkP = 0.53;
+    public static final double ShooterkP = 0.7;
     public static final double ShooterkI = 0;
-    public static final double ShooterkD = 6.4;
+    public static final double ShooterkD = 7.5;
     public static final int ShooterTopID = 20;
     public static final int ShooterBottomID = 21;
     public static final int GatewayID = 7;
-    public static final double AcceptableShootingError = 500;
-    public static final double FixedShootingSpeed = 12500;
+    public static final double AcceptableShootingError = 200;
+    public static final double FixedShootingSpeed = 12000;
+
+
+    //climber constants 
     public static final int ClimberLeftID = 0;
     public static final int ClimberRightID = 0;
     public static final int kTurnTravelUnitsPerRotation = 1;
@@ -52,11 +63,16 @@ public final class Constants {
     public static final int kTimeoutMs = 30;
     public static final int kSlot_Turning = 1;
     public static final int PID_TURN = 1;
+
+
+    //limelight constants
     public static final double LimelightDegree = 13.55;
     public static final double HubHeight = 2.64;
     public static final double LimelightHeight = 0.84;
+
+
+    //indexer constants
     public static final int IndexID = 10;
-    public static final int RightBumper = 6;
-    public static final int LeftBumper = 5;
+
     
 }

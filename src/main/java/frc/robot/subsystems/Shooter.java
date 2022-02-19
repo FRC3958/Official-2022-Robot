@@ -20,7 +20,6 @@ public class Shooter extends SubsystemBase {
   private double motorSpeedDiff = 0;
   private WPI_TalonFX shooterTop = new WPI_TalonFX(Constants.ShooterTopID);
   private WPI_TalonFX shooterBottom = new WPI_TalonFX(Constants.ShooterBottomID);
-  private WPI_TalonSRX gateway = new WPI_TalonSRX(Constants.GatewayID);
 
 
   /** Creates a new Shooter. */
@@ -28,7 +27,6 @@ public class Shooter extends SubsystemBase {
     //sets motors to defult at startup
     shooterTop.configFactoryDefault();
     shooterBottom.configFactoryDefault();
-    gateway.configFactoryDefault();
     // gets encoder data for shooter motors
     shooterTop.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     shooterBottom.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -44,9 +42,6 @@ public class Shooter extends SubsystemBase {
 
     shooterTop.setNeutralMode(NeutralMode.Coast);
     shooterBottom.setNeutralMode(NeutralMode.Coast);
-    gateway.setNeutralMode(NeutralMode.Brake);
-
-    gateway.setInverted(true);;
 
     
     shooterTop.follow(shooterBottom); 
@@ -79,13 +74,7 @@ public class Shooter extends SubsystemBase {
     shooterBottom.set(ControlMode.Velocity, speed);
   }
 
-  public void openGateway() {// feeds ball to shooter
-    gateway.set(-0.5);
-  }
-
-  public void closeGateway() {// stops feeding ball to shooter
-    gateway.set(0);
-  }
+  
 
   
 }

@@ -42,7 +42,7 @@ public class DriveToDistance extends CommandBase {
     double percentError = (Math.abs(DistanceToTravel)-distanceTravelled)/DistanceToTravel;
     boolean isBackwards = percentError<0; 
     double absPercentError = Math.abs(percentError); 
-    SmartDashboard.putNumber("abs % error", absPercentError); 
+    
 
 
     double motorOutput = 0.6; 
@@ -55,8 +55,6 @@ public class DriveToDistance extends CommandBase {
     // if statement to find direction
     motorOutput *= isBackwards ? 1 : -1; 
 
-    SmartDashboard.putNumber("motor output", motorOutput);
-
     m_dt.arcadeDrive(motorOutput, 0);
   }
 
@@ -64,14 +62,12 @@ public class DriveToDistance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_dt.arcadeDrive(0, 0);
-    System.out.println("Ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     double distanceTravelled = Math.sqrt(Math.pow(m_dt.getCurrentX()-StartingX, 2) + Math.pow(m_dt.getCurrentY()-StartingY, 2));
-    SmartDashboard.putNumber("distancet", distanceTravelled); 
     return (Math.abs(DistanceToTravel) - distanceTravelled) < 0.005 || Math.abs(DistanceToTravel) < 0.1; //sets tolerence
   }
 }

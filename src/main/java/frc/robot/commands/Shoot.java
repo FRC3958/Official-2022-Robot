@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
 
 public class Shoot extends CommandBase {
@@ -17,12 +18,14 @@ public class Shoot extends CommandBase {
   Shooter m_shooter;
   DoubleSupplier m_shootingSpeed; // expression that can give different values
   double shootingVelocity = 0; 
-  boolean stopAtEnd = false; 
+  boolean reverseGateway = false; 
+  Index I;
   
-  public Shoot(Shooter s, DoubleSupplier shootingSpeed, boolean sae) {
+  public Shoot(Shooter s, DoubleSupplier shootingSpeed, boolean sae, Index In) {
     m_shooter = s;
     m_shootingSpeed = shootingSpeed;
-    stopAtEnd = sae;
+    reverseGateway = sae;
+    I = In;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -38,11 +41,14 @@ public class Shoot extends CommandBase {
     m_shooter.setVelocityMode(shootingVelocity);
     // feeds the ball when the shooter is at an acceptable speed
     SmartDashboard.putNumber("Shooter Velocity", m_shooter.getShooterVelocity());
-    if((shootingVelocity - m_shooter.getShooterVelocity() < Constants.AcceptableShootingError) && stopAtEnd) {
-      m_shooter.openGateway();
+    if((shootingVelocity - m_shooter.getShooterVelocity() < Constants.AcceptableShootingError) && !reverseGateway) {
+      I.SendIt();
       
+    } else if(reverseGateway) {
+      I.reverseGateway();
+      I.intake(0.3);
     } else {
-      m_shooter.closeGateway();
+      I.closeGateway();
     
     }
   }
@@ -50,7 +56,7 @@ public class Shoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {// stops feeding balls
-    m_shooter.closeGateway();
+    I.StopAll();
     m_shooter.setPercentMode(0);
   }
 
