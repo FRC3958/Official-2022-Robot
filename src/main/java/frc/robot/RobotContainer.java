@@ -83,11 +83,10 @@ public class RobotContainer {
     new JoystickButton(m_xc, Constants.LeftBumper)
       .whenHeld(new Extaking(m_index));
 
-    
-    
-    //new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
-    //.whenPressed(() -> m_limelight.setLED(true))
-    //.whenReleased(()-> m_limelight.setLED(false));
+        
+    new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
+      .whenPressed(() -> m_shooter.setVelocityMode(10000))
+      .whenReleased(()-> m_shooter.setPercentMode(0));
 
   }
 

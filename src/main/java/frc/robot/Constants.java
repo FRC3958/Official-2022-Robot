@@ -46,7 +46,7 @@ public final class Constants {
     public static final int ShooterBottomID = 21;
     public static final int GatewayID = 7;
     public static final double AcceptableShootingError = 200;
-    public static final double FixedShootingSpeed = 12000;
+    public static final double FixedShootingSpeed = 7500;
 
 
     //climber constants 

@@ -25,15 +25,13 @@ public class limeLight extends SubsystemBase {
   public limeLight() {
 
   }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     result = new PhotonPipelineResult();// yaw constantly updates
     SmartDashboard.putNumber("yewYaw", yeeYawww()); // Outputs latest Yaw
     SmartDashboard.putNumber("distance", getDistanceToTarget());
-
-     
   
   }
 
@@ -73,9 +71,8 @@ public class limeLight extends SubsystemBase {
     }
   }
 
-  public double GetShooterTicks() {
-    double x = getDistanceToTarget();
-    return (-282.484*Math.pow(x, 3) + 4215.73*Math.pow(x, 2) + -19080.2*x + 36260.9);
-  }
-
+  /*public double GetShooterTicks() {
+    //double x = getDistanceToTarget();
+    // return (-282.484*Math.pow(x, 3) + 4215.73*Math.pow(x, 2) + -19080.2*x + 36260.9);
+  }*/
 }

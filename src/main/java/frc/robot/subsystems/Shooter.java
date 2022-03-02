@@ -47,7 +47,7 @@ public class Shooter extends SubsystemBase {
     shooterTop.follow(shooterBottom); 
     shooterTop.setInverted(true);
   
-  
+    
 
   }
 
@@ -59,6 +59,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("bottom speed", shooterBottom.getSelectedSensorVelocity());
     SmartDashboard.putNumber("top speed", shooterTop.getSelectedSensorVelocity());
     SmartDashboard.putNumber("speed differnce", motorSpeedDiff);
+    SmartDashboard.putNumber("VoltageTopDraw", shooterTop.getMotorOutputVoltage());
+    SmartDashboard.putNumber("VoltageBotDraw", shooterBottom.getMotorOutputVoltage());
 
   }
 

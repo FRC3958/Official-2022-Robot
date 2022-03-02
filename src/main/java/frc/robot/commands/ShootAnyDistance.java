@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
@@ -30,7 +31,7 @@ public class ShootAnyDistance extends SequentialCommandGroup {
     addCommands(
       new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
       new ParallelCommandGroup(
-        new Shoot(m_shooter, () -> m_lime.GetShooterTicks(), false, m_intake))
+        new Shoot(m_shooter, () -> Constants.FixedShootingSpeed, false, m_intake))
       );
   }
 }
