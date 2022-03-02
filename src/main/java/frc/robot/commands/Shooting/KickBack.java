@@ -2,44 +2,43 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Shooting;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Index;
 
-public class Driving extends CommandBase {
-  /** Creates a new Driving. */
-  private DriveTrain dt;
-  private XboxController xc;
-
-  public Driving(DriveTrain td, XboxController cx) {
-    dt = td;
-    xc = cx;
-
+public class KickBack extends CommandBase {
+  private Index I;
+  private long time = 0;
+  /** Creates a new KickBack. */
+  public KickBack(Index m_I) {
+    I = m_I;
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(dt);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    time = System.currentTimeMillis();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    dt.arcadeDrive(xc.getLeftY(), xc.getRightX()*0.7);
-
+    I.reverseAll();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    I.StopAll();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return System.currentTimeMillis() - time > 400;
   }
 }
