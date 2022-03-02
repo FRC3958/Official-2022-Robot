@@ -52,6 +52,7 @@ public final class Constants {
     //climber constants 
     public static final int ClimberLeftID = 0;
     public static final int ClimberRightID = 0;
+    public static final int ClimberTurnID = 0; 
     public static final int kTurnTravelUnitsPerRotation = 1;
     public static final int kEncoderUnitsPerRotation = 1;
     public static final double kGains_TurningkF = 0;
@@ -63,6 +64,19 @@ public final class Constants {
     public static final int kTimeoutMs = 30;
     public static final int kSlot_Turning = 1;
     public static final int PID_TURN = 1;
+    public static final int climberStaticLeftLimitChannel = 0;
+    public static final int climberStaticRightLimitChannel = 0;
+    public static final int climberDynamicLeftLimitChannel = 0;
+    public static final int climberDynamicRightLimitChannel = 0;
+
+
+    public static double nativeUnitsToDegrees(double nu) {
+        return (nu/2048) * 360;
+    }
+
+    public static double degreesToNativeUnits(double d) {
+        return (d/360) * 2048; 
+    }
 
 
     //limelight constants
@@ -73,6 +87,6 @@ public final class Constants {
 
     //indexer constants
     public static final int IndexID = 10;
-
+    
     
 }
