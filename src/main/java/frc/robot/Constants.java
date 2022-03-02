@@ -68,6 +68,7 @@ public final class Constants {
     public static final int climberStaticRightLimitChannel = 0;
     public static final int climberDynamicLeftLimitChannel = 0;
     public static final int climberDynamicRightLimitChannel = 0;
+    public static final double ArmPassOffHeight = 0;
 
 
     public static double nativeUnitsToDegrees(double nu) {

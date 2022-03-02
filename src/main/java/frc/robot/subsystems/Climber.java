@@ -74,6 +74,10 @@ public class Climber extends SubsystemBase{
 		climberLeft.set(speed);
 	}
 
+	public void setArmHeight(double height) {
+		climberLeft.set(ControlMode.Position, height);
+	}
+
 	public double getArmHeight() {
 		return climberLeft.getSelectedSensorPosition();
 	}
@@ -92,6 +96,11 @@ public class Climber extends SubsystemBase{
 
 	public double getRobotPitch() {
 		return navx.getPitch();
+	}
+
+	public void stopAllMotors() {
+		climberLeft.set(0);
+		climberTurn.set(0);
 	}
 
 	public void resetEncoders() {
