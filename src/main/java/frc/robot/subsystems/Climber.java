@@ -104,9 +104,9 @@ public class Climber extends SubsystemBase{
 	}
 
 	public void resetEncoders() {
-		climberLeft.setSelectedSensorPosition(0);
-		climberRight.setSelectedSensorPosition(0);
-		climberTurn.setSelectedSensorPosition(0);
+		climberLeft.getSensorCollection().setIntegratedSensorPosition(0, 30);
+		climberRight.getSensorCollection().setIntegratedSensorPosition(0, 30);
+		climberTurn.getSensorCollection().setIntegratedSensorPosition(0, 30);
 	}
 
 	
