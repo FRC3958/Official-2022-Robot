@@ -38,15 +38,15 @@ public final class Constants {
 
 
     //shooter constants
-    public static final double ShooterkF = 0.0498; 
-    public static final double ShooterkP = 0.7;
-    public static final double ShooterkI = 0;
-    public static final double ShooterkD = 7.5;
+    public static final double ShooterkF = 0.05303465488;//0.0; 
+    public static final double ShooterkP = 0.22;//0.69;
+    public static final double ShooterkI = 0;//0.0008;
+    public static final double ShooterkD = 0.5;//10;
     public static final int ShooterTopID = 20;
     public static final int ShooterBottomID = 21;
     public static final int GatewayID = 7;
-    public static final double AcceptableShootingError = 200;
-    public static final double FixedShootingSpeed = 7500;
+    public static final double AcceptableShootingError = 60;
+    public static final double FixedShootingSpeed = 10800;
 
 
     //climber constants 
@@ -88,6 +88,7 @@ public final class Constants {
 
     //indexer constants
     public static final int IndexID = 10;
+    public static final int backButton = 7;
     
     
 }

@@ -44,7 +44,6 @@ public class ShootingFullRoutine extends SequentialCommandGroup {
       new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
       new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
       new KickBack(m_index),
-      new DriveToDistance(m_dt, distanceToTravel),
       new ParallelDeadlineGroup(
         new DriveToDistance(m_dt, distanceToTravel), 
         new Shoot(m_shoot, ()  -> Constants.FixedShootingSpeed, true, m_index)

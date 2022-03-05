@@ -65,21 +65,25 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_dt.setDefaultCommand(m_driving);
 
+    //auto align
     new JoystickButton(m_xc, Constants.ButtonA)
       .whenHeld(new TurnToAngle(m_dt, () -> -m_limelight.yeeYawww()));
 
     new JoystickButton(m_xc, Constants.ButtonB) 
       .whenPressed(new TurnToAngle(m_dt, () -> 3));
 
+      // shooting
     new JoystickButton(m_xc, Constants.ButtonX)
-      .whenHeld(new ShootAnyDistance(m_limelight, m_shooter, m_index, m_dt) );
+      .whenHeld(new Shoot(m_shooter, () -> SmartDashboard.getNumber("Shooting Ticks", 0), false, m_index));
 
     new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
-      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, 5.25, m_index));
+      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, 5, m_index));
 
+      // intaking
     new JoystickButton(m_xc, Constants.RightBumper)
       .whenHeld(new Intaking(m_index));
 
+    // extaking
     new JoystickButton(m_xc, Constants.LeftBumper)
       .whenHeld(new Extaking(m_index));
 
@@ -87,6 +91,9 @@ public class RobotContainer {
     new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
       .whenPressed(() -> m_shooter.setVelocityMode(10000))
       .whenReleased(()-> m_shooter.setPercentMode(0));
+
+    new JoystickButton(m_xc, Constants.backButton) 
+      .whenHeld(new DriveToDistance(m_dt, () -> -0.3));
 
   }
 

@@ -41,7 +41,7 @@ public class Shoot extends CommandBase {
     m_shooter.setVelocityMode(shootingVelocity);
     // feeds the ball when the shooter is at an acceptable speed
     SmartDashboard.putNumber("Shooter Velocity", m_shooter.getShooterVelocity());
-    if((shootingVelocity - m_shooter.getShooterVelocity() < Constants.AcceptableShootingError) && !reverseGateway) {
+    if((Math.abs(shootingVelocity - m_shooter.getShooterVelocity()) < Constants.AcceptableShootingError) && !reverseGateway) {
       I.SendIt();
       
     } else if(reverseGateway) {
