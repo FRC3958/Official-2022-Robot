@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Driving.Driving;
+import frc.robot.commands.Driving.PID;
 import frc.robot.commands.Driving.DriveToDistance;
 import frc.robot.commands.Driving.TurnToAngle;
 import frc.robot.commands.Driving.autonDrivingRoutine;
@@ -70,7 +71,7 @@ public class RobotContainer {
       .whenHeld(new TurnToAngle(m_dt, () -> -m_limelight.yeeYawww()));
 
     new JoystickButton(m_xc, Constants.ButtonB) 
-      .whenPressed(new TurnToAngle(m_dt, () -> 3));
+      .whenHeld(new DriveToDistance(m_dt, () -> 0.5));
 
       // shooting
     new JoystickButton(m_xc, Constants.ButtonX)

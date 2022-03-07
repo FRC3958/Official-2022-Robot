@@ -4,9 +4,14 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -41,22 +46,28 @@ public class DriveTrain extends SubsystemBase {
     backleft.configFactoryDefault();
     backright.configFactoryDefault();
       // configs PIDs
-    TalonFXConfiguration config1 = new TalonFXConfiguration();
-    config1.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+    TalonFXConfiguration followerconfig = new TalonFXConfiguration();
+    followerconfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
 
-      config1.slot0.kP = Constants.DriveTrainkP;
-      config1.slot0.kI = Constants.DriveTrainkI;
-      config1.slot1.kD = Constants.DriveTrainkD;
     //configs PIDs
-    TalonFXConfiguration config2 = new TalonFXConfiguration();
-    config2.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+    TalonFXConfiguration masterconfig = new TalonFXConfiguration();
+    masterconfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+    masterconfig.remoteFilter1.remoteSensorDeviceID = backleft.getDeviceID();
+    masterconfig.remoteFilter1.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor;
 
-      config2.slot0.kP = Constants.DriveTrainkP;
-      config2.slot0.kI = Constants.DriveTrainkI;
-      config2.slot1.kD = Constants.DriveTrainkD;
+    masterconfig.slot1.kP = 0.5;
+    masterconfig.slot1.kI = 0.000;
+    masterconfig.slot1.kD = 0; 
+    masterconfig.slot1.integralZone = 100; 
+
+    masterconfig.slot0.kP = Constants.DriveTrainkP;
+    masterconfig.slot0.kI = Constants.DriveTrainkI;
+    masterconfig.slot0.kD = Constants.DriveTrainkD;
+    masterconfig.slot0.integralZone = 200; 
+
     //Sets motors to cofig PIDs
-    backleft.configAllSettings(config1);
-    backright.configAllSettings(config2);
+    backleft.configAllSettings(followerconfig);
+    backright.configAllSettings(masterconfig);
 
     frontleft.follow(backleft);
     frontright.follow(backright);
@@ -94,6 +105,11 @@ public class DriveTrain extends SubsystemBase {
     DiffD.arcadeDrive(-forward, turn,true);
   }
 
+  public void driveStraightToPos(double distance) {
+    backright.set(ControlMode.PercentOutput, distance, DemandType.AuxPID, backright.getSelectedSensorPosition(1));
+    backleft.follow(backright, FollowerType.AuxOutput1);
+  }
+
   
     // gets distance in meters
   public Pose2d getPose() {
@@ -120,6 +136,11 @@ public class DriveTrain extends SubsystemBase {
   public double getMetersFromNative(double QuadEncoderInput) {
     return QuadEncoderInput*(Constants.WheelDiameter*Math.PI)/Constants.QuadEncoderResolution;
   }
+
+  public double getNativeFromMeters(double meters) {
+    return meters * Constants.QuadEncoderResolution / (Constants.WheelDiameter*Math.PI);
+  }
+
   // /8 for gear ratio
   public double getLeftDistanceMeters() {
     return getMetersFromNative(backleft.getSelectedSensorPosition()/8);

@@ -18,8 +18,8 @@ public final class Constants {
     public static final int FrontLeft = 1;
     public static final int BackRight = 2;
     public static final int BackLeft = 3;
-    public static final double DriveTrainkP = 0.05;
-    public static final double DriveTrainkI = 0.0025;
+    public static final double DriveTrainkP = 0.1;
+    public static final double DriveTrainkI = 0.000;
     public static final double DriveTrainkD = 0;
     public static final int kTimeout = 30;
     public static final int QuadEncoderResolution = 2048;
