@@ -95,10 +95,6 @@ public class DriveTrain extends SubsystemBase {
       Rotation2d.fromDegrees(getHeading()), 
       getLeftDistanceMeters(),
       getRightDistanceMeters());
-
-    SmartDashboard.putNumber("heading", getHeading());
-    SmartDashboard.putNumber("Distance X", getCurrentX());
-    SmartDashboard.putNumber("Distance Y", getCurrentY());
   }
 // driving
   public void arcadeDrive(double forward, double turn){

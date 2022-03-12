@@ -50,9 +50,9 @@ public final class Constants {
 
 
     //climber constants 
-    public static final int ClimberLeftID = 0;
-    public static final int ClimberRightID = 0;
-    public static final int ClimberTurnID = 0; 
+    public static final int ClimberLeftID = 23;
+    public static final int ClimberRightID = 22;
+    public static final int ClimberTurnID = 4; 
     public static final int kTurnTravelUnitsPerRotation = 1;
     public static final int kEncoderUnitsPerRotation = 1;
     public static final double kGains_TurningkF = 0;
@@ -72,11 +72,11 @@ public final class Constants {
 
 
     public static double nativeUnitsToDegrees(double nu) {
-        return (nu/2048) * 360;
+        return ((nu/2048) * 360) * .111111111;
     }
 
     public static double degreesToNativeUnits(double d) {
-        return (d/360) * 2048; 
+        return ((d/360) * 2048) / .111111111; 
     }
 
 

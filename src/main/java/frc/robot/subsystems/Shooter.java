@@ -54,13 +54,6 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    motorSpeedDiff = shooterBottom.getSelectedSensorVelocity()- shooterTop.getSelectedSensorVelocity();
-    // speed of shooter motors (Ideally should be the same)
-    SmartDashboard.putNumber("bottom speed", shooterBottom.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("top speed", shooterTop.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("speed differnce", motorSpeedDiff);
-    SmartDashboard.putNumber("VoltageTopDraw", shooterTop.getMotorOutputVoltage());
-    SmartDashboard.putNumber("VoltageBotDraw", shooterBottom.getMotorOutputVoltage());
 
   }
 

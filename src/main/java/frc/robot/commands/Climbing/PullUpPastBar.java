@@ -26,10 +26,10 @@ public class PullUpPastBar extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_climber.dynamicArmOn()) {
+    /*if(m_climber.dynamicArmOn()) {
       m_climber.setArmPosition(0);
       m_climber.setArmHeight(0);
-    }
+    }*/
   }
 
   // Called once the command ends or is interrupted.

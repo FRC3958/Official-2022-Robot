@@ -54,7 +54,6 @@ public class TurnToAngle extends CommandBase {
   if(getAngleFromLimelight) {
     //for some reason calling yeeYaw directly was restarting the roboRio, so I directly get the value from network tables (look at shuffleboard)
     goalAngle = limeYawDS.getAsDouble();//-1*NetworkTableInstance.getDefault().getTable("photonvision").getSubTable("3958Limelight").getEntry("targetYaw").getDouble(0);
-    SmartDashboard.putNumber("gaaaa", goalAngle);
     if(Math.abs(goalAngle) < 6) { //6 degree tolerene
       angleTooClose = true;
       
@@ -95,9 +94,6 @@ public class TurnToAngle extends CommandBase {
     motorOutput *= isBackwards ? -1 : 1;
     lowMotorOutput *= isBackwards ? -1 : 1;
 
-    SmartDashboard.putNumber("turning error", absPercentError);
-    SmartDashboard.putNumber("turning output", motorOutput);
-
     // using tuned outputs to drive
     dt.arcadeDrive(0, motorOutput);
     dt.arcadeDrive(0, lowMotorOutput);
@@ -115,8 +111,6 @@ public class TurnToAngle extends CommandBase {
   @Override
   public boolean isFinished() {
     double percentError =  (goalAngle - (currentAngle- startingAngle))/Math.abs(goalAngle);
-    SmartDashboard.putBoolean("finish early?", angleTooClose); 
-    SmartDashboard.putNumber("Goal Angle", goalAngle);
     // stop at this % range or when angleToClose is true
     return percentError > -.01 && percentError < .01 || angleTooClose; 
     

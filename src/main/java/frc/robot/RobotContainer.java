@@ -18,6 +18,7 @@ import frc.robot.commands.Shooting.Intaking;
 import frc.robot.commands.Shooting.Shoot;
 import frc.robot.commands.Shooting.ShootAnyDistance;
 import frc.robot.commands.Shooting.ShootingFullRoutine;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
@@ -38,6 +39,7 @@ public class RobotContainer {
   private final limeLight m_limelight = new limeLight();
   private final Shooter m_shooter = new Shooter();
   private final Index m_index = new Index();
+  private final Climber m_climber = new Climber(); 
   
 
   private final Driving m_driving = new Driving (m_dt, m_xc);
@@ -48,10 +50,8 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
-    SmartDashboard.putNumber("DistanceToTravel", 0);
     SmartDashboard.putNumber("Shooting Ticks", 0);
     configureButtonBindings();
-    SmartDashboard.putData(new DriveToDistance(m_dt, () -> SmartDashboard.getNumber("DistanceToTravel", 0)));
    // SmartDashboard.putData(new TurnToAngle(m_dt, () -> m_limelight.getYaw())); // angle
 
 
@@ -68,18 +68,21 @@ public class RobotContainer {
 
     //auto align
     new JoystickButton(m_xc, Constants.ButtonA)
-      .whenHeld(new TurnToAngle(m_dt, () -> -m_limelight.yeeYawww()));
+      .whenPressed(() -> m_climber.pullUpDown(-0.25))
+      .whenReleased(() -> m_climber.pullUpDown(0));
 
     new JoystickButton(m_xc, Constants.ButtonB) 
-      .whenHeld(new DriveToDistance(m_dt, () -> 0.5));
+      .whenPressed(() -> m_climber.turnArm(-0.2))
+      .whenReleased(() -> m_climber.turnArm(0));
 
       // shooting
     new JoystickButton(m_xc, Constants.ButtonX)
-      .whenHeld(new Shoot(m_shooter, () -> SmartDashboard.getNumber("Shooting Ticks", 0), false, m_index));
+      .whenPressed(() -> m_climber.turnArm(0.25))
+      .whenReleased(() -> m_climber.turnArm(0));
 
     new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
-      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, 5, m_index));
-
+      .whenPressed(() -> m_climber.pullUpDown(0.25))
+      .whenReleased(() -> m_climber.pullUpDown(0)); 
       // intaking
     new JoystickButton(m_xc, Constants.RightBumper)
       .whenHeld(new Intaking(m_index));
@@ -90,11 +93,11 @@ public class RobotContainer {
 
         
     new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
-      .whenPressed(() -> m_shooter.setVelocityMode(10000))
-      .whenReleased(()-> m_shooter.setPercentMode(0));
+      .whenPressed(() -> m_climber.resetEncoders());
 
     new JoystickButton(m_xc, Constants.backButton) 
-      .whenHeld(new DriveToDistance(m_dt, () -> -0.3));
+      .whenPressed(() -> m_climber.setArmPosition(0))
+      .whenReleased(() -> m_climber.turnArm(0));
 
   }
 
