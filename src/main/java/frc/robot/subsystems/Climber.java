@@ -26,10 +26,10 @@ public class Climber extends SubsystemBase{
 	private final TalonFXConfiguration  config = new TalonFXConfiguration(); 
 	private final TalonSRXConfiguration turnconfig = new TalonSRXConfiguration(); 
 
-	//private final DigitalInput climberStaticLeft = new DigitalInput(Constants.climberStaticLeftLimitChannel);
-	//private final DigitalInput climberStaticRight = new DigitalInput(Constants.climberStaticRightLimitChannel);
-	//private final DigitalInput climberDynamicLeft = new DigitalInput(Constants.climberDynamicLeftLimitChannel);
-	//private final DigitalInput climberDynamicRight = new DigitalInput(Constants.climberDynamicRightLimitChannel);
+	private final DigitalInput climberStaticLeft = new DigitalInput(Constants.climberStaticLeftLimitChannel);
+	private final DigitalInput climberStaticRight = new DigitalInput(Constants.climberStaticRightLimitChannel);
+	private final DigitalInput climberDynamicLeft = new DigitalInput(Constants.climberDynamicLeftLimitChannel);
+	private final DigitalInput climberDynamicRight = new DigitalInput(Constants.climberDynamicRightLimitChannel);
 
 	//private final AHRS navx = new AHRS(Port.kMXP); //TODO is reusing navx a good thing?
 	
@@ -43,7 +43,7 @@ public class Climber extends SubsystemBase{
 		config.slot0.kD = 5;
 
 		turnconfig.slot0.kP = 0.5;
-		turnconfig.slot0.kI = 0.000075;
+		turnconfig.slot0.kI = 0.0;
 
 		config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
@@ -67,8 +67,10 @@ public class Climber extends SubsystemBase{
 	public void periodic() {
 		SmartDashboard.putNumber("arm position", getArmAngle());
 		SmartDashboard.putNumber("arm height", getArmHeight());
-		//SmartDashboard.putBoolean("static arm on", staticArmOn());
-		//SmartDashboard.putBoolean("dynamic arm on", dynamicArmOn());
+		SmartDashboard.putBoolean("staticl arm on", staticArmOn());
+		SmartDashboard.putBoolean("dynamicl arm on", dynamicArmOn());
+		SmartDashboard.putBoolean("staticr arm on", !climberStaticRight.get());
+		SmartDashboard.putBoolean("dynamicr arm on", !climberDynamicRight.get());
 		///SmartDashboard.putNumber("robot pitch", getRobotPitch());
 	}
 
@@ -96,14 +98,14 @@ public class Climber extends SubsystemBase{
 		return Constants.nativeUnitsToDegrees(climberTurn.getSelectedSensorPosition());
 	}
 
-	/*
+	
 	public boolean staticArmOn() {
-		return !climberStaticLeft.get() && !climberStaticRight.get();
+		return !climberStaticLeft.get();
 	}
 
 	public boolean dynamicArmOn() {
-		return !climberDynamicLeft.get() && !climberDynamicRight.get();
-	} */
+		return !climberDynamicLeft.get();
+	} 
 
 	//public double getRobotPitch() {
 	//	return navx.getPitch();

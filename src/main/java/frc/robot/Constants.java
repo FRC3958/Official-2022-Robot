@@ -35,6 +35,8 @@ public final class Constants {
     public static final int startButton = 8;
     public static final int RightBumper = 6;
     public static final int LeftBumper = 5;
+    public static final int backButton = 7;
+    public static final int XboxPortOne = 1;
 
 
     //shooter constants
@@ -44,7 +46,7 @@ public final class Constants {
     public static final double ShooterkD = 0.5;//10;
     public static final int ShooterTopID = 20;
     public static final int ShooterBottomID = 21;
-    public static final int GatewayID = 7;
+    public static final int GatewayID = 11;
     public static final double AcceptableShootingError = 60;
     public static final double FixedShootingSpeed = 10800;
 
@@ -64,10 +66,10 @@ public final class Constants {
     public static final int kTimeoutMs = 30;
     public static final int kSlot_Turning = 1;
     public static final int PID_TURN = 1;
-    public static final int climberStaticLeftLimitChannel = 0;
+    public static final int climberStaticLeftLimitChannel = 2;
     public static final int climberStaticRightLimitChannel = 0;
-    public static final int climberDynamicLeftLimitChannel = 0;
-    public static final int climberDynamicRightLimitChannel = 0;
+    public static final int climberDynamicLeftLimitChannel = 3;
+    public static final int climberDynamicRightLimitChannel = 1;
     public static final double ArmPassOffHeight = 0;
 
 
@@ -79,6 +81,10 @@ public final class Constants {
         return ((d/360) * 2048) / .111111111; 
     }
 
+    public static double shooterTicksFromDistance(double d) {
+        return ((d*d) * 62.7368) + (d * -76.2304) + 8975.62;
+    }
+
 
     //limelight constants
     public static final double LimelightDegree = 13.55;
@@ -87,8 +93,8 @@ public final class Constants {
 
 
     //indexer constants
-    public static final int IndexID = 10;
-    public static final int backButton = 7;
+    public static final int IndexID = 16;
+
     
     
 }

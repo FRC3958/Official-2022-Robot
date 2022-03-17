@@ -36,6 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_dt = new DriveTrain();
   private final XboxController m_xc = new XboxController(Constants.XboxPort);
+  private final XboxController m_operaterController = new XboxController(Constants.XboxPortOne);
   private final limeLight m_limelight = new limeLight();
   private final Shooter m_shooter = new Shooter();
   private final Index m_index = new Index();
@@ -66,36 +67,45 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_dt.setDefaultCommand(m_driving);
 
-    //auto align
-    new JoystickButton(m_xc, Constants.ButtonA)
-      .whenPressed(() -> m_climber.pullUpDown(-0.25))
-      .whenReleased(() -> m_climber.pullUpDown(0));
-
-    new JoystickButton(m_xc, Constants.ButtonB) 
-      .whenPressed(() -> m_climber.turnArm(-0.2))
-      .whenReleased(() -> m_climber.turnArm(0));
-
-      // shooting
-    new JoystickButton(m_xc, Constants.ButtonX)
-      .whenPressed(() -> m_climber.turnArm(0.25))
-      .whenReleased(() -> m_climber.turnArm(0));
-
-    new JoystickButton(m_xc, Constants.ButtonY)// Y to shoot
-      .whenPressed(() -> m_climber.pullUpDown(0.25))
-      .whenReleased(() -> m_climber.pullUpDown(0)); 
-      // intaking
+    // intaking
     new JoystickButton(m_xc, Constants.RightBumper)
-      .whenHeld(new Intaking(m_index));
-
+    .whenHeld(new Intaking(m_index));
+    
     // extaking
     new JoystickButton(m_xc, Constants.LeftBumper)
       .whenHeld(new Extaking(m_index));
 
+    //auto align
+    new JoystickButton(m_xc, Constants.ButtonA)
+      .whenHeld(new TurnToAngle(m_dt, () -> -m_limelight.yeeYawww()));
+
+    new JoystickButton(m_xc, Constants.ButtonX)
+      .whenHeld(new Shoot(m_shooter, () -> SmartDashboard.getNumber("Shooting Ticks", 0), false, m_index));
+
+    new JoystickButton(m_xc, Constants.ButtonY)
+      .whenHeld(new Shoot(m_shooter, () -> Constants.shooterTicksFromDistance(m_limelight.getDistanceToTarget()), false, m_index));
+
+    new JoystickButton(m_operaterController, Constants.ButtonA)
+      .whenPressed(() -> m_climber.pullUpDown(-0.25))
+      .whenReleased(() -> m_climber.pullUpDown(0));
+
+    new JoystickButton(m_operaterController, Constants.ButtonB) 
+      .whenPressed(() -> m_climber.turnArm(-0.2))
+      .whenReleased(() -> m_climber.turnArm(0));
+
+      // shooting
+    new JoystickButton(m_operaterController, Constants.ButtonX)
+      .whenPressed(() -> m_climber.turnArm(0.3))
+      .whenReleased(() -> m_climber.turnArm(0));
+
+    new JoystickButton(m_operaterController, Constants.ButtonY)// Y to shoot
+      .whenPressed(() -> m_climber.pullUpDown(0.25))
+      .whenReleased(() -> m_climber.pullUpDown(0)); 
         
-    new JoystickButton(m_xc, Constants.startButton) // on/off light to heaven (limelight)
+    new JoystickButton(m_operaterController, Constants.startButton) // on/off light to heaven (limelight)
       .whenPressed(() -> m_climber.resetEncoders());
 
-    new JoystickButton(m_xc, Constants.backButton) 
+    new JoystickButton(m_operaterController, Constants.backButton) 
       .whenPressed(() -> m_climber.setArmPosition(0))
       .whenReleased(() -> m_climber.turnArm(0));
 

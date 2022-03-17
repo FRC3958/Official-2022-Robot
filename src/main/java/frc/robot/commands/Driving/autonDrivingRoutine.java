@@ -18,11 +18,8 @@ public class autonDrivingRoutine extends SequentialCommandGroup {
     dt = dtt;
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new DriveToDistance(dt, () -> 2.5),
-    new TurnToAngle(dt , () -> 90), //TODO try 180s
-    new TurnToAngle(dt, () -> 90),
-    new DriveToDistance(dt, () -> -1),
-    new DriveToDistance(dt, () -> 3.5)
+      new DriveToDistance(dt, () -> -0.5)
+
 
     );
   }
