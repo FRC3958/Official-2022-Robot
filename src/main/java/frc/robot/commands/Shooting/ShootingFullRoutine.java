@@ -4,15 +4,9 @@
 
 package frc.robot.commands.Shooting;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.commands.Driving.DriveToDistance;
 import frc.robot.commands.Driving.TurnToAngle;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
@@ -29,28 +23,22 @@ public class ShootingFullRoutine extends SequentialCommandGroup {
   limeLight m_lime;
   Index m_index; 
 
-  public ShootingFullRoutine(DriveTrain d, Shooter s, limeLight l, double fixedShootingDistance, Index i) { //TODO overload constructor for shooting from anywhere/fixed distance
+  public ShootingFullRoutine(DriveTrain d, Shooter s, limeLight l, Index i) {
     m_dt = d ; 
     m_shoot = s; 
     m_lime = l; 
     m_index = i; 
     
-    DoubleSupplier distanceToTravel = () -> fixedShootingDistance == 0 ? 0 : -(m_lime.getDistanceToTarget() - fixedShootingDistance);
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    SmartDashboard.putNumber("currentd", m_lime.getDistanceToTarget());
-    SmartDashboard.putNumber("distanttt", distanceToTravel.getAsDouble());
     addCommands(
-      new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
-      new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
-      new KickBack(m_index),
-      new ParallelDeadlineGroup(
-        new DriveToDistance(m_dt, distanceToTravel), 
-        new Shoot(m_shoot, ()  -> Constants.FixedShootingSpeed, true, m_index)
-      ),
       new ParallelCommandGroup(
-        new Shoot(m_shoot, () -> Constants.FixedShootingSpeed, false, m_index)
-    ));
+        new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
+        new Shoot(m_shoot, () -> Constants.shooterTicksFromDistance(m_lime.getDistanceToTarget()), true, m_index)
+      ),
+      new Shoot(m_shoot, () -> Constants.shooterTicksFromDistance(m_lime.getDistanceToTarget()), false, m_index)
+    );
   }
 
 

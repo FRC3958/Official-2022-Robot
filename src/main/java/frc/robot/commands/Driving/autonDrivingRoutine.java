@@ -5,7 +5,12 @@
 package frc.robot.commands.Driving;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
+import frc.robot.commands.Shooting.Shoot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.limeLight;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -13,11 +18,18 @@ import frc.robot.subsystems.DriveTrain;
 public class autonDrivingRoutine extends SequentialCommandGroup {
   /** Creates a new autonDrivingRoutine. */
   DriveTrain dt;
-  public autonDrivingRoutine(DriveTrain dtt) {
+  Shooter m_s;
+  limeLight m_l;
+  Index m_i; 
+  public autonDrivingRoutine(DriveTrain dtt, Shooter s, limeLight l, Index i) {
     // Add your commands in the addCommands() call, e.g.
     dt = dtt;
+    m_s = s;
+    m_l = l;
+    m_i = i; 
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new Shoot(m_s, () -> Constants.shooterTicksFromDistance(m_l.getDistanceToTarget()), false, m_i),
       new DriveToDistance(dt, () -> -0.5)
 
 

@@ -44,7 +44,7 @@ public class RobotContainer {
   
 
   private final Driving m_driving = new Driving (m_dt, m_xc);
-  private final autonDrivingRoutine m_auton = new autonDrivingRoutine(m_dt);
+  private final autonDrivingRoutine m_auton = new autonDrivingRoutine(m_dt, m_shooter, m_limelight, m_index);
   private final Intaking m_intaking = new Intaking(m_index);
   private final Extaking m_extaking = new Extaking(m_index);
 
@@ -79,8 +79,11 @@ public class RobotContainer {
     new JoystickButton(m_xc, Constants.ButtonA)
       .whenHeld(new TurnToAngle(m_dt, () -> -m_limelight.yeeYawww()));
 
+    new JoystickButton(m_xc, Constants.ButtonB)
+      .whenHeld(new Shoot(m_shooter, () -> 10292.5, false, m_index));
+
     new JoystickButton(m_xc, Constants.ButtonX)
-      .whenHeld(new Shoot(m_shooter, () -> SmartDashboard.getNumber("Shooting Ticks", 0), false, m_index));
+      .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, m_index));
 
     new JoystickButton(m_xc, Constants.ButtonY)
       .whenHeld(new Shoot(m_shooter, () -> Constants.shooterTicksFromDistance(m_limelight.getDistanceToTarget()), false, m_index));
