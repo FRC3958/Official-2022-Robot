@@ -89,20 +89,20 @@ public class RobotContainer {
       .whenHeld(new Shoot(m_shooter, () -> Constants.shooterTicksFromDistance(m_limelight.getDistanceToTarget()), false, m_index));
 
     new JoystickButton(m_operaterController, Constants.ButtonA)
-      .whenPressed(() -> m_climber.pullUpDown(-0.25))
+      .whenPressed(() -> m_climber.pullUpDown(-0.3))
       .whenReleased(() -> m_climber.pullUpDown(0));
 
     new JoystickButton(m_operaterController, Constants.ButtonB) 
-      .whenPressed(() -> m_climber.turnArm(-0.2))
+      .whenPressed(() -> m_climber.turnArm(-0.25))
       .whenReleased(() -> m_climber.turnArm(0));
 
       // shooting
     new JoystickButton(m_operaterController, Constants.ButtonX)
-      .whenPressed(() -> m_climber.turnArm(0.3))
+      .whenPressed(() -> m_climber.turnArm(0.325))
       .whenReleased(() -> m_climber.turnArm(0));
 
     new JoystickButton(m_operaterController, Constants.ButtonY)// Y to shoot
-      .whenPressed(() -> m_climber.pullUpDown(0.25))
+      .whenPressed(() -> m_climber.pullUpDown(0.3))
       .whenReleased(() -> m_climber.pullUpDown(0)); 
         
     new JoystickButton(m_operaterController, Constants.startButton) // on/off light to heaven (limelight)
@@ -111,6 +111,10 @@ public class RobotContainer {
     new JoystickButton(m_operaterController, Constants.backButton) 
       .whenPressed(() -> m_climber.setArmPosition(0))
       .whenReleased(() -> m_climber.turnArm(0));
+
+    new JoystickButton(m_operaterController, Constants.LeftBumper)
+      .whenHeld(new DriveToDistance(m_dt, () -> 1.5));
+
 
   }
 

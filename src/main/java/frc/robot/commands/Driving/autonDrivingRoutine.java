@@ -4,8 +4,10 @@
 
 package frc.robot.commands.Driving;
 
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.commands.Shooting.Intaking;
 import frc.robot.commands.Shooting.Shoot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
@@ -29,8 +31,12 @@ public class autonDrivingRoutine extends SequentialCommandGroup {
     m_i = i; 
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new Shoot(m_s, () -> Constants.shooterTicksFromDistance(m_l.getDistanceToTarget()), false, m_i),
-      new DriveToDistance(dt, () -> -0.5)
+      
+      new ParallelDeadlineGroup(
+          new DriveToDistance(dt, () -> 1.5),
+          new Intaking(m_i)
+          ),
+      new Shoot(m_s, () -> Constants.shooterTicksFromDistance(m_l.getDistanceToTarget()), false, m_i)
 
 
     );

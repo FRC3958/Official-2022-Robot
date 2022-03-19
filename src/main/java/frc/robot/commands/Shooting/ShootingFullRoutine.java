@@ -5,6 +5,7 @@
 package frc.robot.commands.Shooting;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.Driving.TurnToAngle;
@@ -33,7 +34,8 @@ public class ShootingFullRoutine extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelCommandGroup(
+      new ParallelDeadlineGroup(
+        new KickBack(m_index),
         new TurnToAngle(m_dt, () -> -m_lime.yeeYawww()),
         new Shoot(m_shoot, () -> Constants.shooterTicksFromDistance(m_lime.getDistanceToTarget()), true, m_index)
       ),

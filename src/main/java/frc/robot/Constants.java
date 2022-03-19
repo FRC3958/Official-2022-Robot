@@ -66,7 +66,7 @@ public final class Constants {
     public static final int kTimeoutMs = 30;
     public static final int kSlot_Turning = 1;
     public static final int PID_TURN = 1;
-    public static final int climberStaticLeftLimitChannel = 2;
+    public static final int climberStaticLeftLimitChannel = 4;
     public static final int climberStaticRightLimitChannel = 0;
     public static final int climberDynamicLeftLimitChannel = 3;
     public static final int climberDynamicRightLimitChannel = 1;
