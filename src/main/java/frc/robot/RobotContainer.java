@@ -15,6 +15,7 @@ import frc.robot.commands.Driving.TurnToAngle;
 import frc.robot.commands.Driving.autonDrivingRoutine;
 import frc.robot.commands.Shooting.Extaking;
 import frc.robot.commands.Shooting.Intaking;
+import frc.robot.commands.Shooting.KickBack;
 import frc.robot.commands.Shooting.Shoot;
 import frc.robot.commands.Shooting.ShootAnyDistance;
 import frc.robot.commands.Shooting.ShootingFullRoutine;
@@ -87,6 +88,9 @@ public class RobotContainer {
 
     new JoystickButton(m_xc, Constants.ButtonY)
       .whenHeld(new Shoot(m_shooter, () -> Constants.shooterTicksFromDistance(m_limelight.getDistanceToTarget()), false, m_index));
+
+    new JoystickButton(m_xc, Constants.startButton)
+      .whenHeld(new KickBack(m_index));
 
     new JoystickButton(m_operaterController, Constants.ButtonA)
       .whenPressed(() -> m_climber.pullUpDown(-0.3))

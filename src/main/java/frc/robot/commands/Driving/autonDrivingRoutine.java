@@ -29,13 +29,11 @@ public class autonDrivingRoutine extends SequentialCommandGroup {
     m_s = s;
     m_l = l;
     m_i = i; 
-    // addCommands(new FooCommand(), new BarCommand());
+    // addCommands/(new FooCommand(), new BarCommand());
     addCommands(
       
-      new ParallelDeadlineGroup(
-          new DriveToDistance(dt, () -> 1.5),
-          new Intaking(m_i)
-          ),
+      
+      new DriveToDistance(dt, () -> 1.5),
       new Shoot(m_s, () -> Constants.shooterTicksFromDistance(m_l.getDistanceToTarget()), false, m_i)
 
 

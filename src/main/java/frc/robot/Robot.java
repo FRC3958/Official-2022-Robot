@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
     //http://10.39.58.2:1181/?action=stream
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    PortForwarder.add(5800, "10.39.58.11", 5800);
   }
 
   /**

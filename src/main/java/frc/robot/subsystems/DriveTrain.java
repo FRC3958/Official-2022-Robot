@@ -46,14 +46,10 @@ public class DriveTrain extends SubsystemBase {
     backleft.configFactoryDefault();
     backright.configFactoryDefault();
       // configs PIDs
-    TalonFXConfiguration followerconfig = new TalonFXConfiguration();
-    followerconfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
 
     //configs PIDs
     TalonFXConfiguration masterconfig = new TalonFXConfiguration();
     masterconfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-    masterconfig.remoteFilter1.remoteSensorDeviceID = backleft.getDeviceID();
-    masterconfig.remoteFilter1.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor;
 
     masterconfig.slot1.kP = 0.5;
     masterconfig.slot1.kI = 0.000;
@@ -66,7 +62,6 @@ public class DriveTrain extends SubsystemBase {
     masterconfig.slot0.integralZone = 200; 
 
     //Sets motors to cofig PIDs
-    backleft.configAllSettings(followerconfig);
     backright.configAllSettings(masterconfig);
 
     frontleft.follow(backleft);
@@ -91,6 +86,7 @@ public class DriveTrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // constantly updated angles
+    SmartDashboard.putNumber("Left master power", backleft.getStatorCurrent());
     odometry.update(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftDistanceMeters(),

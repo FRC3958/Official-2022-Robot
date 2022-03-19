@@ -38,7 +38,11 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(shootingVelocity < 13000) {
     m_shooter.setVelocityMode(shootingVelocity);
+    } else {
+      m_shooter.setVelocityMode(12000);
+    }
     // feeds the ball when the shooter is at an acceptable speed
     SmartDashboard.putNumber("Shooter Velocity", m_shooter.getShooterVelocity());
     if((Math.abs(shootingVelocity - m_shooter.getShooterVelocity()) < Constants.AcceptableShootingError) && !reverseGateway) {

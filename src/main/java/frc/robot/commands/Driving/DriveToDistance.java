@@ -38,6 +38,9 @@ public class DriveToDistance extends CommandBase {
   public void execute() {
     //find distance already traveled use a^2 + b^2 = c^2
     double distanceTravelled = Math.sqrt(Math.pow(m_dt.getCurrentX()-StartingX, 2) + Math.pow(m_dt.getCurrentY()-StartingY, 2));
+    SmartDashboard.putNumber("distance travelled", distanceTravelled);
+    SmartDashboard.putNumber("current x", m_dt.getCurrentX());
+    SmartDashboard.putNumber("current y", m_dt.getCurrentY());
     // distence left to travel as %
     double percentError = (Math.abs(DistanceToTravel)-distanceTravelled)/DistanceToTravel;
     boolean isBackwards = percentError<0; 
@@ -48,12 +51,14 @@ public class DriveToDistance extends CommandBase {
     double motorOutput = 0.6; 
     // y = mx+b
     if(absPercentError<=1 && absPercentError > 0.8) {// fine tuning 
-      motorOutput = 1.5*(1-absPercentError) + 0.3; 
+      motorOutput = 1*(1-absPercentError) + 0.4; 
     } else if (absPercentError<0.25) {
       motorOutput = 1.4*absPercentError + 0.25; 
     }
     // if statement to find direction
     motorOutput *= isBackwards ? 1 : -1; 
+
+    System.out.println("driving at " + motorOutput);
 
     m_dt.arcadeDrive(motorOutput, 0);
   }
