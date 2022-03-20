@@ -27,19 +27,26 @@ import frc.robot.Constants;
 
 public class DriveTrain extends SubsystemBase {
 
-  public final WPI_TalonFX frontright = new WPI_TalonFX(Constants.FrontRight);
-  public final WPI_TalonFX frontleft = new WPI_TalonFX(Constants.FrontLeft);
-  public final WPI_TalonFX backright = new WPI_TalonFX(Constants.BackRight);
-  public final WPI_TalonFX backleft = new WPI_TalonFX(Constants.BackLeft);
+  public final WPI_TalonFX frontright;
+  public final WPI_TalonFX frontleft;
+  public final WPI_TalonFX backright;
+  public final WPI_TalonFX backleft;
   // sets left and right as diffent objects so that they can moce seperatly
-  public final DifferentialDrive DiffD = new DifferentialDrive(backleft, backright);
+  public final DifferentialDrive DiffD;
   // instantiates navX/sensors
-  private final AHRS m_ahrs = new AHRS(Port.kMXP);
+  private final AHRS m_ahrs;
   // does complicated calculations to get angles 
   private DifferentialDriveOdometry odometry;
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
+    frontright = new WPI_TalonFX(Constants.FrontRight);
+    frontleft = new WPI_TalonFX(Constants.FrontLeft);
+    backright = new WPI_TalonFX(Constants.BackRight);
+    backleft = new WPI_TalonFX(Constants.BackLeft);
+    DiffD = new DifferentialDrive(backleft, backright);
+    m_ahrs = new AHRS(Port.kMXP);
+    
     // sets motors to defult at start up
     frontright.configFactoryDefault();
     frontleft.configFactoryDefault();

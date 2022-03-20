@@ -27,7 +27,7 @@ public final class Constants {
 
 
     //controller constants
-    public static final int XboxPort = 0;
+    public static final int XboxPort = 0;    
     public static final int ButtonA = 1;
 	public static final int ButtonB = 2;
     public static final int ButtonX = 3;

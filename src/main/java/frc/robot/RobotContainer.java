@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.nio.channels.GatheringByteChannel;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -35,22 +37,34 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveTrain m_dt = new DriveTrain();
-  private final XboxController m_xc = new XboxController(Constants.XboxPort);
-  private final XboxController m_operaterController = new XboxController(Constants.XboxPortOne);
-  private final limeLight m_limelight = new limeLight();
-  private final Shooter m_shooter = new Shooter();
-  private final Index m_index = new Index();
-  private final Climber m_climber = new Climber(); 
+  private final DriveTrain m_dt;
+  private final XboxController m_xc;
+  private final XboxController m_operaterController;
+  private final limeLight m_limelight;
+  private final Shooter m_shooter;
+  private final Index m_index;
+  private final Climber m_climber;
   
 
-  private final Driving m_driving = new Driving (m_dt, m_xc);
-  private final autonDrivingRoutine m_auton = new autonDrivingRoutine(m_dt, m_shooter, m_limelight, m_index);
-  private final Intaking m_intaking = new Intaking(m_index);
-  private final Extaking m_extaking = new Extaking(m_index);
+  private final Driving m_driving; 
+  private final autonDrivingRoutine m_auton;
+  private final Intaking m_intaking;
+  private final Extaking m_extaking;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_xc = new XboxController(Constants.XboxPort);
+    m_dt = new DriveTrain();
+    m_operaterController = new XboxController(Constants.XboxPortOne);
+    m_limelight = new limeLight();
+    m_shooter = new Shooter();
+    m_index = new Index();
+    m_climber = new Climber(); 
+
+    m_driving = new Driving (m_dt, m_xc);
+    m_auton = new autonDrivingRoutine(m_dt, m_shooter, m_limelight, m_index);
+    m_intaking = new Intaking(m_index);
+    m_extaking = new Extaking(m_index);
     // Configure the button bindings
     SmartDashboard.putNumber("Shooting Ticks", 0);
     configureButtonBindings();
@@ -97,7 +111,7 @@ public class RobotContainer {
       .whenReleased(() -> m_climber.pullUpDown(0));
 
     new JoystickButton(m_operaterController, Constants.ButtonB) 
-      .whenPressed(() -> m_climber.turnArm(-0.25))
+      .whenPressed(() -> m_climber.turnArm(-0.30))
       .whenReleased(() -> m_climber.turnArm(0));
 
       // shooting
@@ -117,7 +131,15 @@ public class RobotContainer {
       .whenReleased(() -> m_climber.turnArm(0));
 
     new JoystickButton(m_operaterController, Constants.LeftBumper)
-      .whenHeld(new DriveToDistance(m_dt, () -> 1.5));
+      .whenPressed(() -> m_index.openGateway())
+      .whenReleased(() -> m_index.closeGateway());
+
+      new JoystickButton(m_operaterController, Constants.RightBumper)
+      .whenPressed(() -> m_index.reverseGateway())
+      .whenReleased(() -> m_index.closeGateway());
+
+
+    
 
 
   }

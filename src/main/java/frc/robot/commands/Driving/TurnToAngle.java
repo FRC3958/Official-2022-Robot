@@ -37,6 +37,8 @@ public class TurnToAngle extends CommandBase {
     dt = drt; 
     getAngleFromLimelight = true; 
     limeYawDS = ds; 
+
+    addRequirements(dt);
   }
 
 
