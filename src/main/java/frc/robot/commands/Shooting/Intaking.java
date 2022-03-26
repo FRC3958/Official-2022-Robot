@@ -24,7 +24,7 @@ public class Intaking extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    I.intake(.7);
+    I.intake(.90);
     
 
   }

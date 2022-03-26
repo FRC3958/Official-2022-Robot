@@ -25,7 +25,7 @@ public class Extaking extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    I.intake(-0.7);
+    I.intake(-0.8);
 
   }
 

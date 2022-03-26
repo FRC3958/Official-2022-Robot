@@ -94,6 +94,8 @@ public final class Constants {
 
     //indexer constants
     public static final int IndexID = 16;
+    public static final int PCMID = 0;
+    public static final int ChannelID = 0;
 
     
     

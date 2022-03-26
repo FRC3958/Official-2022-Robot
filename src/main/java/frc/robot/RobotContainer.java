@@ -6,8 +6,12 @@ package frc.robot;
 
 import java.nio.channels.GatheringByteChannel;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Driving.Driving;
@@ -44,6 +48,8 @@ public class RobotContainer {
   private final Shooter m_shooter;
   private final Index m_index;
   private final Climber m_climber;
+  private final Compressor m_compressor;
+  private final Solenoid m_ss;
   
 
   private final Driving m_driving; 
@@ -60,7 +66,9 @@ public class RobotContainer {
     m_shooter = new Shooter();
     m_index = new Index();
     m_climber = new Climber(); 
-
+    m_compressor = new Compressor(Constants.PCMID, PneumaticsModuleType.CTREPCM);
+    m_ss = new Solenoid(Constants.PCMID, PneumaticsModuleType.CTREPCM, Constants.ChannelID);
+    
     m_driving = new Driving (m_dt, m_xc);
     m_auton = new autonDrivingRoutine(m_dt, m_shooter, m_limelight, m_index);
     m_intaking = new Intaking(m_index);
@@ -137,10 +145,6 @@ public class RobotContainer {
       new JoystickButton(m_operaterController, Constants.RightBumper)
       .whenPressed(() -> m_index.reverseGateway())
       .whenReleased(() -> m_index.closeGateway());
-
-
-    
-
 
   }
 
