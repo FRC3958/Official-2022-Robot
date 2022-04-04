@@ -34,6 +34,6 @@ public class WaitFiveCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return System.currentTimeMillis() - startTime > 5000; 
+    return System.currentTimeMillis() - startTime > 4000; 
   }
 }

@@ -11,14 +11,17 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Driving.Driving;
 import frc.robot.commands.Driving.PID;
+import frc.robot.commands.Auton.FiveBallAuton;
+import frc.robot.commands.Auton.OneBallAuton;
+import frc.robot.commands.Auton.TwoBallAuton;
 import frc.robot.commands.Driving.DriveToDistance;
 import frc.robot.commands.Driving.TurnToAngle;
-import frc.robot.commands.Driving.autonDrivingRoutine;
 import frc.robot.commands.Shooting.Extaking;
 import frc.robot.commands.Shooting.Intaking;
 import frc.robot.commands.Shooting.KickBack;
@@ -29,6 +32,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.TriggerButton;
 import frc.robot.subsystems.limeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -49,11 +53,15 @@ public class RobotContainer {
   private final Index m_index;
   private final Climber m_climber;
   private final Compressor m_compressor;
-  private final Solenoid m_ss;
+
   
 
   private final Driving m_driving; 
-  private final autonDrivingRoutine m_auton;
+
+  private final FiveBallAuton m_fiveBall;
+  private final OneBallAuton m_oneBall;
+  private final TwoBallAuton m_twoBall;
+
   private final Intaking m_intaking;
   private final Extaking m_extaking;
 
@@ -67,18 +75,27 @@ public class RobotContainer {
     m_index = new Index();
     m_climber = new Climber(); 
     m_compressor = new Compressor(Constants.PCMID, PneumaticsModuleType.CTREPCM);
-    m_ss = new Solenoid(Constants.PCMID, PneumaticsModuleType.CTREPCM, Constants.ChannelID);
+  
+    //m_compressor = new Compressor(Constants.PCMID, PneumaticsModuleType.CTREPCM);
+    //m_ss = new Solenoid(Constants.PCMID, PneumaticsModuleType.CTREPCM, Constants.ChannelID);
     
     m_driving = new Driving (m_dt, m_xc);
-    m_auton = new autonDrivingRoutine(m_dt, m_shooter, m_limelight, m_index);
+    
+    m_fiveBall = new FiveBallAuton(m_dt, m_shooter, m_limelight, m_index);
+    m_twoBall = new TwoBallAuton(m_shooter, m_dt, m_index);
+    m_oneBall = new OneBallAuton(m_shooter, m_dt, m_index);
+
     m_intaking = new Intaking(m_index);
     m_extaking = new Extaking(m_index);
+
     // Configure the button bindings
     SmartDashboard.putNumber("Shooting Ticks", 0);
+    m_compressor.enableDigital();
+    
+    
     configureButtonBindings();
    // SmartDashboard.putData(new TurnToAngle(m_dt, () -> m_limelight.getYaw())); // angle
-
-
+    
     }
 
   /**
@@ -93,13 +110,23 @@ public class RobotContainer {
     // intaking
     new JoystickButton(m_xc, Constants.RightBumper)
     .whenHeld(new Intaking(m_index));
+
+    new JoystickButton(m_xc, Constants.backButton)
+      .whenPressed(() -> m_index.dropTheGates());
+
+    new JoystickButton(m_xc, Constants.startButton)
+      .whenPressed(() -> m_index.raiseTheGates());
+      
+    new JoystickButton(m_xc, Constants.PressingJoystickLeft)
+    .whenPressed(() -> m_compressor.enableDigital())
+    .whenReleased(() -> m_compressor.disable());
     
     // extaking
     new JoystickButton(m_xc, Constants.LeftBumper)
       .whenHeld(new Extaking(m_index));
-
-    //auto align
-    new JoystickButton(m_xc, Constants.ButtonA)
+    
+      
+    new TriggerButton(m_xc, 2)
       .whenHeld(new TurnToAngle(m_dt, () -> -m_limelight.yeeYawww()));
 
     new JoystickButton(m_xc, Constants.ButtonB)
@@ -111,8 +138,8 @@ public class RobotContainer {
     new JoystickButton(m_xc, Constants.ButtonY)
       .whenHeld(new Shoot(m_shooter, () -> Constants.shooterTicksFromDistance(m_limelight.getDistanceToTarget()), false, m_index));
 
-    new JoystickButton(m_xc, Constants.startButton)
-      .whenHeld(new KickBack(m_index));
+    //new JoystickButton(m_xc, Constants.startButton)
+    //  .whenHeld(new KickBack(m_index));
 
     new JoystickButton(m_operaterController, Constants.ButtonA)
       .whenPressed(() -> m_climber.pullUpDown(-0.3))
@@ -155,6 +182,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_auton;
+    return m_fiveBall;
   }
 }

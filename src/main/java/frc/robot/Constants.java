@@ -40,10 +40,10 @@ public final class Constants {
 
 
     //shooter constants
-    public static final double ShooterkF = 0.05303465488;//0.0; 
-    public static final double ShooterkP = 0.22;//0.69;
-    public static final double ShooterkI = 0;//0.0008;
-    public static final double ShooterkD = 0.5;//10;
+    public static final double ShooterkF = 0.05303465488; //0.05303465488
+    public static final double ShooterkP = 0.22; //0.22
+    public static final double ShooterkI = 0; //0
+    public static final double ShooterkD = 0.5; //0.5
     public static final int ShooterTopID = 20;
     public static final int ShooterBottomID = 21;
     public static final int GatewayID = 11;
@@ -54,7 +54,8 @@ public final class Constants {
     //climber constants 
     public static final int ClimberLeftID = 23;
     public static final int ClimberRightID = 22;
-    public static final int ClimberTurnID = 4; 
+    public static final int ClimberTurnID = 4;
+    public static final int ClimberRightTurnID = 10;  
     public static final int kTurnTravelUnitsPerRotation = 1;
     public static final int kEncoderUnitsPerRotation = 1;
     public static final double kGains_TurningkF = 0;
@@ -82,7 +83,7 @@ public final class Constants {
     }
 
     public static double shooterTicksFromDistance(double d) {
-        return ((d*d) * 62.7368) + (d * -76.2304) + 8975.62;
+        return ((d*d) * 62.7368) + (d * -76.2304) + 9050.62;
     }
 
 
@@ -95,7 +96,8 @@ public final class Constants {
     //indexer constants
     public static final int IndexID = 16;
     public static final int PCMID = 0;
-    public static final int ChannelID = 0;
+    public static final int RelayPortID = 0;
+    public static final int PressingJoystickLeft = 9;
 
     
     

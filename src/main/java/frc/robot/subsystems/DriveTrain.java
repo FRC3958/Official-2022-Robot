@@ -93,7 +93,7 @@ public class DriveTrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // constantly updated angles
-    SmartDashboard.putNumber("Left master power", backleft.getStatorCurrent());
+
     odometry.update(
       Rotation2d.fromDegrees(getHeading()), 
       getLeftDistanceMeters(),

@@ -47,12 +47,14 @@ public class Shoot extends CommandBase {
     SmartDashboard.putNumber("Shooter Velocity", m_shooter.getShooterVelocity());
     if((Math.abs(shootingVelocity - m_shooter.getShooterVelocity()) < Constants.AcceptableShootingError) && !reverseGateway) {
       I.SendIt();
+      SmartDashboard.putBoolean("gate", true);
       
     } else if(reverseGateway) {
       I.reverseGateway();
       I.intake(0.3);
     } else {
       I.closeGateway();
+      SmartDashboard.putBoolean("gate", false);
     
     }
   }

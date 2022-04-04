@@ -23,6 +23,7 @@ public class Climber extends SubsystemBase{
 	private final WPI_TalonFX climberLeft = new WPI_TalonFX(Constants.ClimberLeftID);
 	private final WPI_TalonFX climberRight = new WPI_TalonFX(Constants.ClimberRightID);
 	private final WPI_TalonSRX climberTurn = new WPI_TalonSRX(Constants.ClimberTurnID);
+	private final WPI_TalonSRX climberTurnRight = new WPI_TalonSRX(Constants.ClimberRightTurnID);
 	private final TalonFXConfiguration  config = new TalonFXConfiguration(); 
 	private final TalonSRXConfiguration turnconfig = new TalonSRXConfiguration(); 
 
@@ -37,6 +38,7 @@ public class Climber extends SubsystemBase{
 		climberLeft.configFactoryDefault();
 		climberRight.configFactoryDefault();
 		climberTurn.configFactoryDefault();
+		climberTurnRight.configFactoryDefault();
 
 		config.slot0.kP = 0.5;
 		config.slot0.kI = 0.005;
@@ -56,11 +58,14 @@ public class Climber extends SubsystemBase{
 		climberLeft.setNeutralMode(NeutralMode.Brake);
 		climberRight.setNeutralMode(NeutralMode.Brake);
 		climberTurn.setNeutralMode(NeutralMode.Brake);
+		climberTurnRight.setNeutralMode(NeutralMode.Brake);
 
 		climberRight.setInverted(true);
 		climberTurn.setInverted(true);
+		climberTurnRight.setInverted(false);
 
 		climberRight.follow(climberLeft);
+		climberTurnRight.follow(climberTurn);
 	}
 
 	@Override

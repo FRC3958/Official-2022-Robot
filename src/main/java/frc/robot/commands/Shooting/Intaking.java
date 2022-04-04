@@ -24,8 +24,8 @@ public class Intaking extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    I.intake(.90);
-    
+    I.intake(1);
+    I.dropTheGates();
 
   }
 
@@ -33,7 +33,7 @@ public class Intaking extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     I.intake(0);
-
+    I.raiseTheGates();
   }
 
   // Returns true when the command should end.

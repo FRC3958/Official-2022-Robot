@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Shooting;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
@@ -26,7 +27,6 @@ public class Extaking extends CommandBase {
   @Override
   public void execute() {
     I.intake(-0.8);
-
   }
 
   // Called once the command ends or is interrupted.
