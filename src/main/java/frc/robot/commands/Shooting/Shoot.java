@@ -33,6 +33,7 @@ public class Shoot extends CommandBase {
   @Override
   public void initialize() {
     shootingVelocity = m_shootingSpeed.getAsDouble(); // gives usable double value
+    I.dropTheGates();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -63,6 +64,7 @@ public class Shoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {// stops feeding balls
     I.StopAll();
+    I.raiseTheGates();
     m_shooter.setPercentMode(0);
   }
 

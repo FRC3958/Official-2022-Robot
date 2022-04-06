@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Driving.Driving;
 import frc.robot.commands.Driving.PID;
-import frc.robot.commands.Auton.FiveBallAuton;
+import frc.robot.commands.Auton.FourBallAuton;
 import frc.robot.commands.Auton.OneBallAuton;
 import frc.robot.commands.Auton.TwoBallAuton;
 import frc.robot.commands.Driving.DriveToDistance;
@@ -58,7 +58,7 @@ public class RobotContainer {
 
   private final Driving m_driving; 
 
-  private final FiveBallAuton m_fiveBall;
+  private final FourBallAuton m_fiveBall;
   private final OneBallAuton m_oneBall;
   private final TwoBallAuton m_twoBall;
 
@@ -80,8 +80,8 @@ public class RobotContainer {
     //m_ss = new Solenoid(Constants.PCMID, PneumaticsModuleType.CTREPCM, Constants.ChannelID);
     
     m_driving = new Driving (m_dt, m_xc);
-    
-    m_fiveBall = new FiveBallAuton(m_dt, m_shooter, m_limelight, m_index);
+
+    m_fiveBall = new FourBallAuton(m_dt, m_shooter, m_limelight, m_index);
     m_twoBall = new TwoBallAuton(m_shooter, m_dt, m_index);
     m_oneBall = new OneBallAuton(m_shooter, m_dt, m_index);
 
@@ -135,7 +135,7 @@ public class RobotContainer {
     new JoystickButton(m_xc, Constants.ButtonX)
       .whenHeld(new ShootingFullRoutine(m_dt, m_shooter, m_limelight, m_index));
 
-    new JoystickButton(m_xc, Constants.ButtonY)
+    new TriggerButton(m_xc, 3)
       .whenHeld(new Shoot(m_shooter, () -> Constants.shooterTicksFromDistance(m_limelight.getDistanceToTarget()), false, m_index));
 
     //new JoystickButton(m_xc, Constants.startButton)
