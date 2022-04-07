@@ -40,8 +40,8 @@ public final class Constants {
 
 
     //shooter constants
-    public static final double ShooterkF = 0.05303465488; //0.05303465488
-    public static final double ShooterkP = 0.22; //0.22
+    public static final double ShooterkF = 0.05668365488; //0.05303465488
+    public static final double ShooterkP = 0.27; //0.22
     public static final double ShooterkI = 0; //0
     public static final double ShooterkD = 0.5; //0.5
     public static final int ShooterTopID = 20;
@@ -83,7 +83,9 @@ public final class Constants {
     }
 
     public static double shooterTicksFromDistance(double d) {
-        return ((d*d) * 62.7368) + (d * -76.2304) + 9050.62;
+                                               //y intercept term  
+                                               // ctrl+s then ctrl+shift+p to deploy (make sure you are connected in driver station)
+        return ((d*d) * 62.7368) + (d * -76.2304) + 9900.62; //quadratic regression of shooting speeds from known distances (9050.62 y-intercept)
     }
 
 
